@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+  	<th>Title</th>
+  	<th>HIT ID</th>
+    <th>Worker ID</th>
+    <th>Status</th>
+    <th>Delete</th>
+  </tr>
+  {% for hit in hits %}
+    <tr>
+    	<td><a href='{{hit.url}}'>{{hit.title}}</a></td>
+    	<td>{{hit.hit_id}}</td>
+      {% if hit.worker_id %}
+      	<td>{{hit.worker_id}}</td>
+      {% else %}
+        <td>Task not yet accepted</td>
+      {% endif %}
+      <td>{{hit.status}}</td>
+      <td>{placeholder}</td>
+    </tr>	
+  {% endfor %}
+</table> 
+
+{% endblock %}

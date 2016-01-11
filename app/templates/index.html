@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Greetings and salutations, Turk!</h1>
+  <p>Your mission, should you choose to accept it, is as follows:</p>
+
+  <ul>
+  	<li>Visit this link in a new browser window or tab: <a href="{{ provided_link }}">{{ provided_description }}</a></li>
+  	<li>For each event listed, enter the event info in the text box below, using the following format: </br>&quot;&lt;OPPONENT&gt; | &lt;DATE (MM/DD/YY)&gt; | &lt;TIME (HH:MM, 24-hour format)&gt; | &lt;LOCATION&gt;&quot;</li>
+  	<li>Example: "UCLA Vs. Michigan | 04/16/16 | 19:30 | Amon G. Carter Stadium"</li>
+  	<li>Please use only one line per event.</li>
+  </ul>
+
+  <p>The HIT # for this consignment is: {{ hit_id }}</p>
+  <form action="" method="" name="">
+      {{ form.hidden_tag() }}
+      <p>{{ form.turk_input(rows=30,cols=100) }}<br>
+      </p>
+      <p><input type="submit" value="Submit"></p>
+  </form>
+  <script src="/static/dualsubmit.js"></script>
+
+{% endblock %}
+
+</html>

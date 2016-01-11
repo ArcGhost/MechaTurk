@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Create a new Human Intelligence Task (HIT)</h2>
+
+
+  <form action="" method="POST" name="">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        <label for="title">Enter a descriptive title for this task:</label>
+        {{ form.hit_title(size=100, class="form-control", placeholder="e.g. UCLA Physics Alumni Fall Events") }}
+      </div>
+      
+      <div class="form-group">
+        <label for="url">Enter the URL at which the information for the task can be found:</label>
+        {{ form.hit_url(size=100, class="form-control", placeholder="e.g. http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php") }}
+      </div>
+
+      <div class="form-group">
+        <label for="description">Enter a description of the task. The Mechanical Turk search mechanism searches using this description, so use words that you think will help Workers find your HITs.</label>
+        {{ form.hit_description(rows=15,cols=100, class="form-control", placeholder="e.g. This is a data entry task. Event-information found at the provided URL needs to be copied in a particular format.") }}
+      </div>
+
+      <div class="form-group">
+        <label for="keywords">Enter a comma-delimited list of keywords for this task. This is a list of words that Workers will use to find your HITs.</label>
+        {{ form.hit_keywords(rows=1,cols=50, class="form-control", placeholder="e.g. alumni, Tassl, tassl, college football") }}
+      </div>      
+
+      <input type="submit" class="btn btn-info" value="Submit">
+  </form>
+
+{% endblock %}

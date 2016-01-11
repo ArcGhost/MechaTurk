@@ -1,0 +1,5 @@
+db_*.py
+db_repository/*
+set_env_vars.sh
+run.py
+*.pyc
