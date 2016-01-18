@@ -3,3 +3,4 @@ db_repository/*
 set_env_vars.sh
 run.py
 *.pyc
+app.db

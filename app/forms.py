@@ -4,8 +4,7 @@ from wtforms.validators import DataRequired
 
 class TurkForm(Form):
     turk_input = TextAreaField('turk_input', validators=[DataRequired()])
-    #hidden_assignmentID = HiddenField('hidden_assignmentID')
-    #hidden_HITID = HiddenField('hidden_HITID')
+    
 
 class CreateHITForm(Form):
 	hit_title = StringField('hit_title', validators=[DataRequired()])

@@ -3,20 +3,16 @@ $(document).ready(function() {
 
     $(":submit").click(function(e) {
         e.preventDefault();
-        alert("First, the data is posted to OUR server.");
-        console.log('Then, the data is posted to AWS server.');
-
-
-        /*
+        console.log('First, the data is posted to OUR server.');
         // submit to our server
         $.ajax({
-            url: "/",
+            url: window.location.href,
             type: 'post',
             data: $('form').serialize(),
-            success: function(result) {
-                // submit to mechanical turk
-                $('form').submit();
-            }*/
+            success: function(result) { 
+                //console.log('Then, the data is posted to AWS server.');
+                $('form').submit();// submit to mechanical turk
+            }
 
 
         });

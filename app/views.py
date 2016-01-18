@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, request, g, url_for
 from app import app, db, models
+from .create_HIT import create_task
 from sqlalchemy import desc
 from .forms import TurkForm, CreateHITForm
 from .models import Hit
-import os, boto.mturk.connection, boto.mturk.question, create_HIT
+import os, boto.mturk.connection, boto.mturk.question
 
 @app.route('/')
 @app.route('/index') #landing page, soon to become a sign-in page 
@@ -29,21 +30,36 @@ def createHIT():
 		db.session.add(h)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
-		AWS_id = create_HIT(h.title, 
-			description = form.hit_description.data, 
-			keywords = form.hit_keywords.data, 
-			id = h.id)
+		#create_task(id, title, description, keywords)
+		AWS_id = create_task(h.id, h.title, form.hit_description.data, form.hit_keywords.data.split(','))
 		#then need to update our DB with the task-ID as assigned by Amazon
 		h.hit_id = AWS_id
 		db.session.commit()
-		return redirect(url_for('all_hits'))
+		return redirect(url_for('all_hits')) #can be changed later
 
 	
-@app.route('/hits/<hit_id>', methods=['GET', 'POST']) #display page for a particular HIT (POST not allowed until Turk accepts job and worker_id is provided by the get request) | no login required
-def hit_consignment(hit_id):
+@app.route('/hits/<id>', methods=['GET', 'POST']) #display page for a particular HIT (POST not allowed until Turk accepts job and worker_id is provided by the get request) | no login required
+def hit_consignment(id):
     form = TurkForm()
-    return render_template('task.html', \
-                            provided_link="http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php", \
-                            provided_description="UCLA Bruins Football Schedule",
-                            hit_id = hit_id,
-                            form=form)
+    h = models.Hit.query.get(id)
+    if request.method == 'GET':
+    	#get the following variables from Amazon when the GET request originates from there
+    	worker_id = request.GET.get("workerId", "") 
+    	assignment_id = request.GET.get("assignmentId", "")
+        task_id = request.GET.get("hitId", "")
+        external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL']
+    	return render_template('task.html', \
+                        provided_link=h.url,
+                        provided_description=h.title,
+                        hit_id = task_id,
+                        worker_id = worker_id,
+                        assignment_id = assignment_id,
+                        external_submit_url = external_submit_url,
+                        form=form)
+    if request.method == 'POST':
+    	# our parsing goes here, or data can just be entered into our db directly; data is sanitized by wtforms when .data is called
+    	# need to confer with James and ask how Turk input will be ingested to the Tassl events DB
+    	h.turk_input = form.turk_input.data
+    	db.session.commit()
+    	flash('Turk input been recorded.')
+    	return redirect(url_for('all_hits'))

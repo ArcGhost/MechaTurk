@@ -13,11 +13,16 @@
   </ul>
 
   <p>The HIT # for this consignment is: {{ hit_id }}</p>
-  <form action="" method="" name="">
+  <form action="{{ external_submit_url }}" method="post" name="">
       {{ form.hidden_tag() }}
-      <p>{{ form.turk_input(rows=30,cols=100) }}<br>
+      <p>{{ form.turk_input(rows=20,cols=100) }}<br>
       </p>
-      <input type="submit" class="btn btn-info" value="Submit">
+      <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
+      <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
+      <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
+      {% if worker_id %}
+        <input type="submit" class="btn btn-info" value="Submit">
+      {# endif %}
   </form>
   <script src="/static/dualsubmit.js"></script>
 
