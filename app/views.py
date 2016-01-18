@@ -44,9 +44,9 @@ def hit_consignment(id):
     h = models.Hit.query.get(id)
     if request.method == 'GET':
     	#get the following variables from Amazon when the GET request originates from there
-    	worker_id = request.GET.get("workerId", "") 
-    	assignment_id = request.GET.get("assignmentId", "")
-        task_id = request.GET.get("hitId", "")
+    	worker_id = request.args.get("workerId")
+    	assignment_id = request.args.get("assignmentId")
+        task_id = request.args.get("hitId")
         external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL']
     	return render_template('task.html', \
                         provided_link=h.url,
