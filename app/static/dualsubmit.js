@@ -10,7 +10,7 @@ $(document).ready(function() {
             type: 'post',
             data: $('form').serialize(),
             success: function(result) { 
-                //console.log('Then, the data is posted to AWS server.');
+                console.log('Then, the data is posted to AWS server.');
                 $('form').submit();// submit to mechanical turk
             }
 
