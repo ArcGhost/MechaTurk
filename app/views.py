@@ -41,8 +41,8 @@ def createHIT():
 @app.route('/hits/<id>', methods=['GET', 'POST']) #display page for a particular HIT (POST not allowed until Turk accepts job and worker_id is provided by the get request) | no login required
 def hit_consignment(id):
     form = TurkForm()
+    h = models.Hit.query.get(id)
     if request.method == 'GET':
-    	h = models.Hit.query.get(id)
     	#get the following variables from Amazon when the GET request originates from there
     	worker_id = request.args.get("workerId")
     	assignment_id = request.args.get("assignmentId")
