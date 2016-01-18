@@ -47,14 +47,13 @@ def hit_consignment(id):
     	worker_id = request.args.get("workerId")
     	assignment_id = request.args.get("assignmentId")
         task_id = request.args.get("hitId")
-        external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL']
-    	return render_template('task.html', \
-                        provided_link=h.url,
-                        provided_description=h.title,
+    	return render_template('task.html', 
+                        provided_link= h.url,
+                        provided_description= h.title,
                         hit_id = task_id,
                         worker_id = worker_id,
                         assignment_id = assignment_id,
-                        external_submit_url = external_submit_url,
+                        external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
                         form=form)
     if request.method == 'POST':
     	# our parsing goes here, or data can just be entered into our db directly; data is sanitized by wtforms when .data is called
