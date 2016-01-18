@@ -22,8 +22,6 @@
       <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
       {% if assignment_ID == 'ASSIGNMENT_ID_NOT_AVAILABLE' %}
       <p>Please view this page through Amazon's Mechanical Turk site to accept this task.</p>
-      {% elif not assignment_ID %}
-      <p>Please view this page through Amazon's Mechanical Turk site to accept this task.</p>
       {% else %}
       <input type="submit" class="btn btn-info" value="Submit">
       {% endif %}
