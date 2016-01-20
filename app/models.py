@@ -1,5 +1,6 @@
 from app import db
 
+
 class Hit(db.Model):
     id = db.Column(db.Integer, primary_key=True) #assigned by us
     hit_id = db.Column(db.String(128), index=True, unique=True) #assigned by Amazon	
@@ -10,4 +11,4 @@ class Hit(db.Model):
     turk_input = db.Column(db.Text()) #resultant work of the Turk
 
     def __repr__(self):
-        return 'ID: %r - %r, HIT #: %r, status: %r, link: %r' % (self.id, self.title, self.hit_id, self.status, self.url)
+        return 'ID: %r - %r, HIT #: %r, status: %r, link: %r \n data dump: \n\n %r' % (self.id, self.title, self.hit_id, self.status, self.url, self.turk_input)

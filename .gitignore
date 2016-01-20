@@ -1,6 +1,4 @@
-db_*.py
-db_repository/*
+sqlite_scripts/*
 set_env_vars.sh
 run.py
 *.pyc
-app.db
