@@ -20,10 +20,10 @@
       <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
       <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
       <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
-      {% if assignment_ID == 'ASSIGNMENT_ID_NOT_AVAILABLE' %}
-      <p>Please view this page through Amazon's Mechanical Turk site to accept this task.</p>
-      {% else %}
+      {% if worker_id %}
       <input type="submit" class="btn btn-info" value="Submit">
+      {% else %}
+      <p>Please view this page through Amazon's Mechanical Turk site to accept this task.</p>
       {% endif %}
   </form>
   <script src="/static/dualsubmit.js"></script>

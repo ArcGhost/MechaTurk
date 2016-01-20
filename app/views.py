@@ -58,6 +58,7 @@ def hit_consignment(id):
     if request.method == 'POST':
     	# our parsing goes here, or data can just be entered into our db directly; data is sanitized by wtforms when .data is called
     	# need to confer with James and ask how Turk input will be ingested to the Tassl events DB
+    	# need to check with field validation here
     	h.turk_input = form.turk_input.data
     	db.session.commit()
     	flash('Turk input been recorded.')

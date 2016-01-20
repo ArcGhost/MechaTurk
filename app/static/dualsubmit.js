@@ -10,7 +10,7 @@ $(document).ready(function() {
             data: $('form').serialize(),
             success: function(result) { 
                 console.log('Then, the data is posted to AWS server.');
-                $('form').submit();// submit to mechanical turk
+                $('form').submit();// submit to mechanical turk via the external_submit_url on the html template
             }
 
         });
