@@ -48,6 +48,7 @@ def hit_consignment(id):
     	assignment_id = request.args.get("assignmentId")
         task_id = request.args.get("hitId")
     	return render_template('task.html', 
+    					id = id,
                         provided_link= h.url,
                         provided_description= h.title,
                         hit_id = task_id,
