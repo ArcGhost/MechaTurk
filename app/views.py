@@ -63,4 +63,4 @@ def hit_consignment(id):
     	h.turk_input = form.turk_input.data
     	db.session.commit()
     	flash('Turk input been recorded.')
-    	return redirect(url_for('all_hits'))
+    	return 'success'
