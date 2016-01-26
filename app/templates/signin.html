@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Sign In </h1>
+
+ <form action="" method="POST" name="">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        <label for="username">Enter Username:</label>
+        {{ form.username(size=25, class="form-control", placeholder="e.g. Player 0ne") }}
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Enter Password:</label>
+        {{ form.password(size=25, class="form-control", placeholder="Insert Coin") }}
+      </div>
+
+      <input type="submit" class="btn btn-info" value="Submit">
+  </form>
+
+{% endblock %}
