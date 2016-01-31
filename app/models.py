@@ -30,7 +30,8 @@ class User(db.Model):
         self._password = bcrypt.generate_password_hash(plaintext)
 
     def is_correct_password(self, plaintext):
-        return bcrypt.check_password_hash(self._password, plaintext)
+        #return bcrypt.check_password_hash(self._password, plaintext)
+        return bcrypt.check_password_hash(plaintext, self._password)
 
     @property
     def is_authenticated(self):
