@@ -13,9 +13,8 @@
       <div class="page-header clearfix">
         <img src="/static/TasslLogo2015.png" class="pull-left" alt="Tassl 2015 Logo" width="300">
         <h3 class="pull-right text-right"><small>
+          <b>Mechanical Turk Portal</b></br>
           {% if current_user.is_authenticated %}
-            <b>Mechanical Turk Portal</b>
-            </br>
             <a href="{{url_for('all_hits')}}">Dashboard</a> | <a href="{{url_for('createHIT')}}">Create</a> | <a href="{{ url_for('signout') }}">Sign Out</a> 
             </br>
             Current Account Balance: {{ acct_bal }}
