@@ -21,12 +21,13 @@ for h in hits:
 	db.session.delete(h)
 db.session.commit()
 
+#add HIT seeds
 print( "Adding seed-data to the database.")
 
 hit_seeds = [
 	{'hit_id': '1234567890', 'title': 'UCLA 2016 Football Schedule', 'worker_id':'','url': 'http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php', 'status':'open', 'turk_input': ''},
-	{'hit_id': '2345678901', 'title': 'Rowan 2016 Baseball Schedule', 'worker_id':'ABCDEFGHIJKL','url': 'http://www.rowanathletics.com/schedule.aspx?path=baseball', 'status':'in progress', 'turk_input': ''},
-	{'hit_id': '3456789012', 'title': 'Cornell 2015 Basketball Schedule', 'worker_id':'BCDEFGHIJKLM','url': 'http://www.cornellbigred.com/schedule.aspx?path=mbball', 'status':'approved', 'turk_input': 'Cornell Vs. Colgate University | 11/16/15 | 19:00 | Hamilton, NY \n Cornell Vs. Georgia Tech | 11/13/15 | 20:00 | Atlanta, GA \n Cornell Vs. Binghamton | 11/18/15 | 18:00 | Ithaca, NY \n'}
+	{'hit_id': '2345678901', 'title': 'Rowan 2016 Baseball Schedule', 'worker_id':'ABCDEFGHIJKL','url': 'http://www.rowanathletics.com/schedule.aspx?path=baseball', 'status':'reviewable', 'turk_input': 'Rowan Vs. Randolph-Macon College (DH) | 02/27/2016 | 11:00 | Ashland, VA\r\nRowan Vs. Randolph-Macon College | 02/28/2016 | 11:00 | Ashland, VA\r\nRowan Vs. Stevens Institute of Technology | 03/06/2016 | 12:00 | Glassboro, NJ\r\nRowan Vs. York College (PA) | 03/07/2016 | 15:00 | Glassboro, NJ\r\nRowan Vs. Neumann University | 03/22/2016 | 15:30 | Glassboro, NJ'},
+	{'hit_id': '3456789012', 'title': 'Cornell 2015 Basketball Schedule', 'worker_id':'BCDEFGHIJKLM','url': 'http://www.cornellbigred.com/schedule.aspx?path=mbball', 'status':'approved', 'turk_input': 'Cornell Vs. Colgate University | 11/16/15 | 19:00 | Hamilton, NY\r\nCornell Vs. Georgia Tech | 11/13/15 | 20:00 | Atlanta, GA\r\nCornell Vs. Binghamton | 11/18/15 | 18:00 | Ithaca, NY'}
 	]
 
 for x in hit_seeds:
@@ -34,10 +35,20 @@ for x in hit_seeds:
 	db.session.add(hit)
 	db.session.commit()
 
+#add admin seed
+admin = models.User()
+admin.username = 'Falken'
+admin._password = 'joshua'
+db.session.add(admin)
+db.session.commit()
+
+
+
 hits = models.Hit.query.all()
 print('Done. DB dump follows:\n')
 print('========== HITs ==========')
 print(hits)
+print('Professor Falken is admin.')
 
 	
 

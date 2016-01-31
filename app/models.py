@@ -8,7 +8,7 @@ class Hit(db.Model):
     title = db.Column(db.String(128), unique=True) #description given by Tassl employee
     worker_id = db.Column(db.String(128))  #given when Turk accepts an assignment
     url = db.Column(db.String(256))  #given by Tassl employee
-    status = db.Column(db.String(128)) #open, in progress, waiting for review, approved, or denied; set by logic
+    status = db.Column(db.String(128)) #open, reviewable, approved, or rejected
     turk_input = db.Column(db.Text()) #resultant work of the Turk
 
     def __repr__(self):

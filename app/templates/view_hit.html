@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h2><a href="{{ hit.url }}">{{ hit.title }}</a></h2>
+  <h4>Assignment #: {{hit.hit_id}}</h4>
+  <h4>Worker ID: {% if hit.worker_id %}{{hit.worker_id}}{% else %}N/A{% endif %}</h4>
+  <h4
+    {% if hit.status == 'reviewable' %}class="text-warning"{% endif %} 
+    {% if hit.status == 'approved' %}class="text-success"{% endif %} 
+    {% if hit.status == 'rejected' %}class="text-danger"{% endif %}
+    {% if hit.status == 'open' %}class="text-primary"{% endif %}>
+    Status: {{ hit.status.upper() }}
+  </h4>
+  </br></br>
+
+  {% if hit.turk_input %}
+    <h4>Turk-generated input is as follows:</h4>
+    <table class="table table-striped table-hover table-condensed">
+      <tr>
+        <th>Event Title</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Location</th>
+      </tr>
+      {% for x in entries %}
+        <tr>
+          {% for y in x %}
+            <td>{{y}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table> 
+  {% else %}
+    <h4>A worker has not yet completed this assignment.</h4>
+  {% endif %}
+
+  
+  {% if hit.status == 'reviewable' %}
+  <form action="" method="" name="">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        <label for="feedback">Enter feedback for this task [optional]:</label>
+        {{ form.feedback(size=100, class="form-control", placeholder="e.g. Great work. Make sure to divide the field information specifically with a [space], a vertical line, and another [space].") }}
+      </div>
+      <a class="btn btn-default btn-success" href="/hits/{{hit.id}}/approved">Approve</a>
+      <a class="btn btn-default btn-danger" href="/hits/{{hit.id}}/rejected">Reject</a>
+  </form>
+
+
+
+
+
+  {% endif %}
+
+
+
+{% endblock %}
+
+</html>

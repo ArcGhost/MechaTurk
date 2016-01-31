@@ -16,3 +16,6 @@ class CreateHITForm(Form):
 class UsernamePasswordForm(Form):
     username = TextField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+class FeedbackForm(Form):
+	feedback = TextAreaField('task_feedback')

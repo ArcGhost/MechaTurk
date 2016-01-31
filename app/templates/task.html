@@ -1,54 +1,76 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-
-  <h1>Greetings and salutations, Turk!</h1>
-  <p>Your mission, should you choose to accept it, is as follows:</p>
-
-  <ul>
-  	<li>Visit this link in a new browser window or tab: <a href="{{ provided_link }}">{{ provided_description }}</a></li>
-  	<li>For each event listed, enter the event info in the text box below, using the following format: </br>&quot;&lt;EVENT DESCRIPTION&gt; | &lt;DATE (MM/DD/YY)&gt; | &lt;TIME (HH:MM, 24-hour format)&gt; | &lt;LOCATION&gt;&quot;</li>
-  	<li>Example: "UCLA Vs. Michigan | 04/16/16 | 19:30 | Amon G. Carter Stadium"</li>
-  	<li>Only enter one event per line.</li>
-  </ul>
-
-  <p>The HIT # for this consignment is: {{ hit_id }}</p>
-  <form action="{{ external_submit_url }}" method="post" name="">
-      {{ form.hidden_tag() }}
-      <p>{{ form.turk_input(rows=20,cols=100) }}<br>
-      </p>
-      <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
-      <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
-      <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
-      {% if worker_id %} 
-      <input type="submit" class="btn btn-info" value="Submit">
-      {% else %}
-      <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
-      {% endif %}
-  </form>
-
-  <script>
-  $(document).ready(function() {
-
-    $(":submit").click(function(e) {
-        e.preventDefault();
-        // submit to our server 
-        //console.log('First, the data is posted to OUR server.');
-        $.ajax({
-            url: '/hits/{{id}}',
-            type: 'POST',
-            data: $('form').serialize(),
-            success: function(result) { 
-                //console.log('Then, the data is posted to AWS server.');
-                $('form').submit();// submit to mechanical turk via the external_submit_url on the html template
-            }
-        });
+  <head>
+    <title>Mechanical Turk</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
 
 
-    });
-  });  
-  </script>
+  <body><div class="row">
+    </div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <b>
+            {% for message in messages %}
+                <p><font color="red">{{ message }}</font></p>
+            {% endfor %}
+            </b>
+          {% endif %}
+        {% endwith %}
+        <h1>Greetings and salutations, Turk!</h1>
+        <p>Your mission, should you choose to accept it, is as follows:</p>
 
-{% endblock %}
+        <ul>
+        	<li>Visit this link in a new browser window or tab: <a href="{{ provided_link }}">{{ provided_description }}</a></li>
+        	<li>For each event listed, enter the event info in the text box below, using the following format: </br>&quot;&lt;EVENT DESCRIPTION&gt; | &lt;DATE (MM/DD/YY)&gt; | &lt;TIME (HH:MM, 24-hour format)&gt; | &lt;LOCATION&gt;&quot;</li>
+        	<li>Example: "UCLA Vs. Michigan | 04/16/16 | 19:30 | Amon G. Carter Stadium"</li>
+        	<li>Only enter one event per line.</li>
+        </ul>
 
+        <p>The HIT # for this consignment is: {{ hit_id }}</p>
+        <form action="{{ external_submit_url }}" method="post" name="">
+            {{ form.hidden_tag() }}
+            <p>{{ form.turk_input(rows=20,cols=100) }}<br>
+            </p>
+            <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
+            <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
+            <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
+            {% if worker_id %} 
+            <input type="submit" class="btn btn-info" value="Submit">
+            {% else %}
+            <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
+            {% endif %}
+        </form>
+
+        <script>
+        $(document).ready(function() {
+          $(":submit").click(function(e) {
+              e.preventDefault();
+              // submit to our server 
+              //console.log('First, the data is posted to OUR server.');
+              $.ajax({
+                  url: '/hits/{{id}}',
+                  type: 'POST',
+                  data: $('form').serialize(),
+                  success: function(result) { 
+                      //console.log('Then, the data is posted to AWS server.');
+                      $('form').submit();// submit to mechanical turk via the external_submit_url on the html template
+                  }
+              });
+          });
+        });  
+        </script>
+      </div>
+    <div class="col-md-1"></div>
+  </div>
+  </body>
+  
 </html>
