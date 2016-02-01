@@ -3,6 +3,7 @@
 import boto.mturk.connection
 import boto.mturk.question
 import os
+import datetime
 
 
 mturk = boto.mturk.connection.MTurkConnection(
@@ -26,6 +27,8 @@ def create_task(id, title, description, keywords):
         description = description,
         keywords = keywords,
         question = questionform,
+        lifetime = datetime.timedelta(365), #time an HIT can be searchable, in days
+        duration = datetime.timedelta(3), #time an HIT can be worked, once accepted, in days
         reward = boto.mturk.price.Price( amount = amount),
         response_groups = ( 'Minimal', 'HITDetail' ), # I don't know what response groups are
         )
