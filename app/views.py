@@ -52,7 +52,10 @@ def all_hits():
 def view_hit(id):
     h = models.Hit.query.get(id)
     form = FeedbackForm()
-    entries = [x.split(' | ') for x in h.turk_input.split('\r\n')]
+    if h.turk_input:
+        entries = [x.split(' | ') for x in h.turk_input.split('\r\n')]
+    else:
+        entries = ''
     return render_template('view_hit.html', 
                         hit = h,
                         entries = entries, 
