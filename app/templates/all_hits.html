@@ -8,7 +8,7 @@
   	<th>Title</th>
   	<th>HIT ID</th>
     <th>Worker ID</th>
-    <th>Status</th>
+    <th class="text-center">Status</th>
     <th>Details</th>
   </tr>
   {% for hit in hits %}
@@ -20,7 +20,7 @@
       {% else %}
         <td>N/A</td>
       {% endif %}
-      <td {% if hit.status == 'reviewable' %}class="warning"{% endif %} {% if hit.status == 'approved' %}class="success"{% endif %} {% if hit.status == 'rejected' %}class="info"{% endif %}>   {{hit.status}}</td>
+      <td {% if hit.status == 'reviewable' %}class="warning text-center"{% endif %} {% if hit.status == 'approved' %}class="success text-center"{% endif %} {% if hit.status == 'rejected' %}class="danger text-center"{% endif %}>{{hit.status.upper()}}</td>
       <td><a class="btn btn-default" href="/hits/{{hit.id}}">view</a></td>
     </tr>	
   {% endfor %}

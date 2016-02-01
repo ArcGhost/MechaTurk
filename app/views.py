@@ -74,9 +74,10 @@ def approve_or_reject(id, judgement):
     db.session.commit()
     if judgement == 'approved':
         mturk.approve_assignment(ass_id, feedback)
+        #delivery to James' portal to happen here
     elif judgement == 'rejected':
         mturk.reject_assignment(ass_id, feedback)
-        #need some kind of success response from Amazon, no?
+        mturk.extend_hit(h.hit_id, 1) #adds one more assignment under current hit, so that it can still be done without creating another hit
     return redirect(url_for('all_hits'))
 
 
