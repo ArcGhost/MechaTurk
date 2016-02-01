@@ -57,7 +57,7 @@
               // submit to our server 
               //console.log('First, the data is posted to OUR server.');
               $.ajax({
-                  url: '/hits/{{id}}',
+                  url: '/consignment/{{id}}',
                   type: 'POST',
                   data: $('form').serialize(),
                   success: function(result) { 
