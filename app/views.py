@@ -68,7 +68,8 @@ def approve_or_reject(id, judgement):
     h = models.Hit.query.get(id)
     form = FeedbackForm()
     assignment = mturk.get_assignments(h.hit_id, status='Submitted')[0] #get the first submitted assignment for the hit (this will exclude approved and rejected assignments)
-    ass_id = assignment.AssignmentId #fetch the id
+    #ass_id = assignment.AssignmentId #fetch the id
+    ass_id = h.assignment_id
     feedback = form.feedback.data #fetch the Tassl feedback
     h.status = judgement
     db.session.commit()
@@ -111,7 +112,9 @@ def hit_consignment(id):
     if request.method == 'GET':
     	#get the following variables from Amazon when the GET request originates from there
     	worker_id = request.args.get("workerId")
-    	assignment_id = request.args.get("assignmentId")
+        if not h.assignment_id: #if assignment_id doesn't exist, grab it from the get request
+            h.assignment_id = request.args.get("assignmentId")
+            db.session.commit()
         task_id = request.args.get("hitId")
     	return render_template('task.html', 
     					id = id,
@@ -119,7 +122,7 @@ def hit_consignment(id):
                         provided_description= h.title,
                         hit_id = task_id,
                         worker_id = worker_id,
-                        assignment_id = assignment_id,
+                        assignment_id = h.assignment_id,
                         external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
                         form=form)
     if request.method == 'POST':
@@ -128,6 +131,7 @@ def hit_consignment(id):
     	h.turk_input = form.turk_input.data
         # our parsing goes here, or data can just be entered into our db directly; data is sanitized by wtforms when .data is called
         h.status = 'reviewable'
+        h.worker_id = request.args.get("workerId")
     	db.session.commit()
     	flash('Turk input been recorded.')
     	return 'success'
