@@ -17,7 +17,7 @@ mturk = boto.mturk.connection.MTurkConnection(
 #print mturk.get_account_balance()
 
 def create_task(id, title, description, keywords):
-    URL = "https://sheltered-reef-1374.herokuapp.com/hits/" + str(id)
+    URL = "https://sheltered-reef-1374.herokuapp.com/consignment/" + str(id)
     frame_height = 500 # the height of the iframe holding the external hit
     amount = .05
     questionform = boto.mturk.question.ExternalQuestion( URL, frame_height )
