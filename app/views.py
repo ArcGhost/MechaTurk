@@ -112,9 +112,8 @@ def hit_consignment(id):
     if request.method == 'GET':
     	#get the following variables from Amazon when the GET request originates from there
     	worker_id = request.args.get("workerId")
-        if not h.assignment_id: #if assignment_id doesn't exist, grab it from the get request
-            h.assignment_id = request.args.get("assignmentId")
-            db.session.commit()
+        h.assignment_id = request.args.get("assignmentId")
+        db.session.commit()
         task_id = request.args.get("hitId")
     	return render_template('task.html', 
     					id = id,
@@ -122,7 +121,7 @@ def hit_consignment(id):
                         provided_description= h.title,
                         hit_id = task_id,
                         worker_id = worker_id,
-                        assignment_id = h.assignment_id,
+                        assignment_id = request.args.get("assignmentId"),
                         external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
                         form=form)
     if request.method == 'POST':
