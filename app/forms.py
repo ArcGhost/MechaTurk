@@ -11,6 +11,7 @@ class CreateHITForm(Form):
 	hit_url = StringField('hit_url', validators=[DataRequired()])
 	hit_description = TextAreaField('hit_description', validators=[DataRequired()])
 	hit_keywords = TextAreaField('hit_keywords', validators=[DataRequired()]) 
+	hit_bounty = StringField('hit_bounty', validators=[DataRequired()])
 
 
 class UsernamePasswordForm(Form):

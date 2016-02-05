@@ -11,6 +11,7 @@ class Hit(db.Model):
     url = db.Column(db.String(256))  #given by Tassl employee
     status = db.Column(db.String(128)) #open, reviewable, approved, or rejected
     turk_input = db.Column(db.Text()) #resultant work of the Turk
+    bounty = db.Column(db.String(16))  #given by Tassl employee, reward for task
 
     def __repr__(self):
         return 'ID: %r - %r, HIT #: %r, status: %r, link: %r \n data dump: \n\n %r' % (self.id, self.title, self.hit_id, self.status, self.url, self.turk_input)

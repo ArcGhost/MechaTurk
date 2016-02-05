@@ -12,6 +12,11 @@
       </div>
       
       <div class="form-group">
+        <label for="bounty">Enter the bounty for this task:</label>
+        {{ form.hit_bounty(size=6, class="form-control", placeholder="e.g. 4.50") }}
+      </div>
+
+      <div class="form-group">
         <label for="url">Enter the URL at which the information for the task can be found:</label>
         {{ form.hit_url(size=100, class="form-control", placeholder="e.g. http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php") }}
       </div>

@@ -89,16 +89,16 @@ def createHIT():
 	if request.method == 'GET':
 		return render_template('create_HIT.html', form=form)
 	if request.method == 'POST':
-		#need to create with our DB first
-		h = models.Hit()
+		h = models.Hit() #need to create with our DB first
 		h.title = form.hit_title.data
 		h.url = form.hit_url.data
 		h.status = "open"
+		h.bounty = form.hit_bounty.data
 		db.session.add(h)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
 		#create_task(id, title, description, keywords)
-		AWS_id = create_task(h.id, h.title, form.hit_description.data, form.hit_keywords.data.split(','))
+		AWS_id = create_task(h.id, h.title, form.hit_description.data, form.hit_keywords.data.split(','), h.bounty)
 		#then need to update our DB with the task-ID as assigned by Amazon
 		h.hit_id = AWS_id
 		db.session.commit()
