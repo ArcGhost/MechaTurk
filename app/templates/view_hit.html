@@ -5,13 +5,15 @@
   <h2><a href="{{ hit.url }}">{{ hit.title }}</a></h2>
   <h4>Assignment #: {{hit.hit_id}}</h4>
   <h4>Worker ID: {% if hit.worker_id %}{{hit.worker_id}}{% else %}N/A{% endif %}</h4>
+  <h4>Bounty: ${{ hit.bounty }}</h4>
   <h4
     {% if hit.status == 'reviewable' %}class="text-warning"{% endif %} 
     {% if hit.status == 'approved' %}class="text-success"{% endif %} 
     {% if hit.status == 'rejected' %}class="text-danger"{% endif %}
     {% if hit.status == 'open' %}class="text-primary"{% endif %}>
     Status: {{ hit.status.upper() }}
-  </h4>
+  </h4></br>
+  <p><b>INSTRUCTIONS GIVEN:</b> "{{ hit.instructions }}"</p>
   </br></br>
 
   {% if hit.turk_input %}

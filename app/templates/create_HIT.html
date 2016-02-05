@@ -22,13 +22,13 @@
       </div>
 
       <div class="form-group">
-        <label for="description">Enter a description of the task. The Mechanical Turk search mechanism searches using this description, so use words that you think will help Workers find your HITs.</label>
-        {{ form.hit_description(rows=5,cols=100, class="form-control", placeholder="e.g. This is a data entry task. Event-information found at the provided URL needs to be copied in a particular format.") }}
+        <label for="instructions">Enter instructions for this task. This will be directed directly at the workers, so specificity is important.</label>
+        {{ form.hit_instructions(rows=5,cols=100, class="form-control", placeholder="e.g. This is a data entry task. For each event in the provided link, please enter all information that applies, and leave fields blank where information is inapplicable or not available.") }}
       </div>
 
       <div class="form-group">
         <label for="keywords">Enter a comma-delimited list of keywords for this task. This is a list of words that Workers will use to find your HITs.</label>
-        {{ form.hit_keywords(rows=1,cols=50, class="form-control", placeholder="e.g. alumni, Tassl, tassl, college football") }}
+        {{ form.hit_keywords(rows=1,cols=50, class="form-control", placeholder="e.g. alumni, Tassl, data collection, college football") }}
       </div>      
 
       <input type="submit" class="btn btn-info" value="Submit">

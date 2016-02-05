@@ -16,26 +16,9 @@
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <b>
-            {% for message in messages %}
-                <p><font color="red">{{ message }}</font></p>
-            {% endfor %}
-            </b>
-          {% endif %}
-        {% endwith %}
-        <h1>Greetings and salutations, Turk!</h1>
-        <p>Your mission, should you choose to accept it, is as follows:</p>
-
-        <ul>
-        	<li>Visit this link in a new browser window or tab: <a href="{{ provided_link }}">{{ provided_description }}</a></li>
-        	<li>For each event listed, enter the event info in the text box below, using the following format: </br>&quot;&lt;EVENT DESCRIPTION&gt; | &lt;DATE (MM/DD/YY)&gt; | &lt;TIME (HH:MM, 24-hour format)&gt; | &lt;LOCATION&gt;&quot;</li>
-        	<li>Example: "UCLA Vs. Michigan | 04/16/16 | 19:30 | Amon G. Carter Stadium"</li>
-        	<li>Only enter one event per line.</li>
-        </ul>
-
-        <p>The HIT # for this consignment is: {{ hit_id }}</p>
+        <h3>Greetings and salutations, Turk!</h3>
+        <p> Firstly, open the following link in a new tab or browser window: {{ hit.url }} </p>
+        <p> {{ hit.instructions }} </p>
         <form action="{{ external_submit_url }}" method="post" name="">
             {{ form.hidden_tag() }}
             <p>{{ form.turk_input(rows=20,cols=100) }}<br>
