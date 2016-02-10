@@ -5,7 +5,7 @@ from . import bcrypt, db
 class Hit(db.Model):
     id = db.Column(db.Integer, primary_key=True) #assigned by us
     hit_id = db.Column(db.String(128), index=True, unique=True) #assigned by Amazon	
-    title = db.Column(db.String(128), unique=True) #description given by Tassl employee
+    title = db.Column(db.String(128)) #description given by Tassl employee
     worker_id = db.Column(db.String(128))  #given when Turk accepts an assignment
     assignment_id = db.Column(db.String(128))  #given when a Turk accepts an assignment
     url = db.Column(db.String(256))  #given by Tassl employee
@@ -13,9 +13,12 @@ class Hit(db.Model):
     turk_input = db.Column(db.Text()) #resultant work of the Turk
     bounty = db.Column(db.String(16))  #given by Tassl employee, reward for task
     instructions = db.Column(db.Text()) #given by Tassl employee, directions to worker
+    created_at = db.Column(db.DateTime) #to track staleness
+    keywords = db.Column(db.Text()) #given by Tassl employee
 
     def __repr__(self):
-        return 'ID: %r - %r, HIT #: %r, status: %r, link: %r \n data dump: \n\n %r' % (self.id, self.title, self.hit_id, self.status, self.url, self.turk_input)
+        return 'ID: %r - %r \n Created at: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n\n data dump: \n %r \n\n\n' % \
+        (self.id, self.title, self.created_at, self.hit_id, self.status, self.url, self.bounty, self.turk_input)
 
 
 

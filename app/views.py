@@ -6,7 +6,13 @@ from .forms import TurkForm, CreateHITForm, UsernamePasswordForm, FeedbackForm
 from .models import Hit, User
 import os, boto.mturk.connection, boto.mturk.question
 from flask.ext.login import login_user, logout_user, current_user, login_required, LoginManager
+import datetime
 
+
+@app.template_filter('days_ago') #this will make a function available to templates
+def days_ago(t=datetime.timedelta(0)):
+    diff = (datetime.datetime.now() - t)
+    return diff.days
 
 
 @app.before_request # functions decorated with before_request run before the view function when request is received
@@ -95,6 +101,8 @@ def createHIT():
 		h.status = "open"
 		h.bounty = form.hit_bounty.data
 		h.instructions = form.hit_instructions.data
+		h.keywords = form.hit_keywords.data
+		h.created_at = datetime.datetime.now()
 		db.session.add(h)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
@@ -135,3 +143,37 @@ def hit_consignment(id):
     	db.session.commit()
     	flash('Turk input been recorded.')
     	return 'success'
+
+
+
+@app.route('/hits/recreate/<id>', methods=['GET', 'POST'])
+@login_required
+def recreateHIT(id):
+    h = models.Hit.query.get(id)
+    h.status = 'expired' #set HIT to 'expired' in our DB
+    db.session.commit()
+    mturk.expire_hit(h.hit_id) #expire old HIT in Amazon
+    form = CreateHITForm()
+    if request.method == 'GET': #populate with existing data
+        form.hit_title.data = h.title
+        form.hit_url.data = h.url
+        form.hit_instructions.data = h.instructions
+        form.hit_bounty.data = h.bounty
+        return render_template('create_HIT.html', form=form)
+    if request.method == 'POST':
+        q = models.Hit() #need to create a new model witq.our DB first
+        q.title = form.hit_title.data
+        q.url = form.hit_url.data
+        q.status = "open"
+        q.bounty = form.hit_bounty.data
+        q.instructions = form.hit_instructions.data
+        q.created_at = datetime.datetime.now()
+        db.session.add(q)
+        db.session.commit()
+        #then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
+        #create_task(id, title, description, keywords, bounty)
+        AWS_id = create_task(q.id, q.title, q.instructions, form.hit_keywords.data.split(','), q.bounty)
+        #then need to update our DB with the task-ID as assigned by Amazon
+        q.hit_id = AWS_id
+        db.session.commit()
+        return redirect(url_for('all_hits')) #can be changed later
