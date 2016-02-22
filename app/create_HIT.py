@@ -17,7 +17,7 @@ mturk = boto.mturk.connection.MTurkConnection(
 #print boto.Version
 #print mturk.get_account_balance()
 
-def create_task(id, title, description, keywords, bounty):
+def create_task(id, title, description, keywords, deadline, bounty):
     URL = "https://tassl-mechaturk.herokuapp.com/consignment/" + str(id)
     frame_height = 500 # the height of the iframe holding the external hit
     #amount = .05
@@ -28,7 +28,7 @@ def create_task(id, title, description, keywords, bounty):
         keywords = keywords,
         question = questionform,
         lifetime = datetime.timedelta(365), #time an HIT can be searchable, in days
-        duration = datetime.timedelta(3), #time an HIT can be worked, once accepted, in days
+        duration = datetime.timedelta(deadline), #time an HIT can be worked, once accepted, in days
         reward = boto.mturk.price.Price( amount = float(bounty)),
         response_groups = ( 'Minimal', 'HITDetail' ), # I don't know what response groups are
         )

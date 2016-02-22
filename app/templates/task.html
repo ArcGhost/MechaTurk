@@ -10,7 +10,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
 
+  <body>
+      <div class="col-md-10">
+        <h3>Greetings and salutations, Turk!</h3>
+        <ul>
+          <li> Firstly, open the following link in a new tab or browser window: {{ hit.url }} </li>
+          <li> {{ hit.instructions }} </li>
+        </ul>
+      </div>
+    
+    {% for event in events %}
+      <div class="col-md-4">
+        <h4 class="bg-primary">EVENT {{ event+1 }}</h4>
+        {% include "single_event.html" %}
+      </div>
+    {% endfor %}
+    <div>
+  </body>
 
+
+
+<!-- {#
   <body><div class="row">
     </div>
     <div class="row">
@@ -55,5 +75,9 @@
     <div class="col-md-1"></div>
   </div>
   </body>
-  
+#}-->
+
+
+
+
 </html>

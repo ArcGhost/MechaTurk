@@ -17,6 +17,16 @@
       </div>
 
       <div class="form-group">
+        <label for="deadline">Enter the integer number of days a worker has to complete this task:</label>
+        {{ form.hit_deadline(size=6, class="form-control", placeholder="e.g. 7 (for one week)") }}
+      </div>
+
+      <div class="form-group">
+        <label for="school">Enter the school affiliated with this task:</label>
+        {{ form.hit_school(class="form-control", placeholder="e.g. Penn State") }}
+      </div>
+
+      <div class="form-group">
         <label for="url">Enter the URL at which the information for the task can be found:</label>
         {{ form.hit_url(size=100, class="form-control", placeholder="e.g. http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php") }}
       </div>

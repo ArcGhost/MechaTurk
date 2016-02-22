@@ -3,11 +3,12 @@
 {% block content %}
 
   <h2><a href="{{ hit.url }}">{{ hit.title }}</a></h2>
-
+  <h4>School: {{hit.school.upper()}} </h4>
   <h4>HIT #: {{hit.hit_id}}</h4>
-  <h4 {% if hit.created_at | days_ago == 0 %}class="text-success"{% endif %} {% if hit.created_at | days_ago == 1 %}class="text-warning"{% endif %} {% if hit.created_at | days_ago >= 2 %}class="text-danger"{% endif %} >Created: {{ hit.created_at | days_ago }} day(s) ago</h4>
+  <h4>Created: {{ hit.created_at | days_ago }} day(s) ago</h4>
   <h4>Worker ID: {% if hit.worker_id %}{{hit.worker_id}}{% else %}N/A{% endif %}</h4>
   <h4>Bounty: ${{ hit.bounty }}</h4>
+  <h4>Days to Complete: {{ hit.deadline }}</h4>
   <h4>Keywords: {{ hit.keywords }}</h4>
   <h4
     {% if hit.status == 'reviewable' %}class="text-warning"{% endif %} 
