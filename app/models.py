@@ -1,14 +1,17 @@
 from app import db
 from sqlalchemy.ext.hybrid import hybrid_property
 from . import bcrypt, db
+from sqlalchemy.orm import class_mapper, ColumnProperty
+import sqlalchemy
+
 
 class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True) #assigned by us
-	host_name = db.Column(db.String(128))
 	event_name = db.Column(db.String(128))
 	event_type = db.Column(db.String(128))
-	on_campus = db.Column(db.Boolean)
-	virtual = db.Column(db.Boolean)
+	host_name = db.Column(db.String(128))
+	on_campus = db.Column(db.String(16))
+	virtual = db.Column(db.String(16))
 	location = db.Column(db.Text())
 	description = db.Column(db.Text())
 	start_date = db.Column(db.String(128))
@@ -16,14 +19,25 @@ class Event(db.Model):
 	start_time = db.Column(db.String(128))
 	end_time = db.Column(db.String(128))
 	time_zone = db.Column(db.String(128))
-	all_day = db.Column(db.Boolean)
+	all_day = db.Column(db.String(16))
 	general_pricing = db.Column(db.String(128))
 	member_pricing = db.Column(db.String(128))
 	non_member_pricing = db.Column(db.String(128))
-	registration_req = db.Column(db.Boolean)
+	registration_req = db.Column(db.String(16))
 	registration_url = db.Column(db.Text())
 	event_page_url = db.Column(db.Text())
 	hit_id = db.Column(db.Integer, db.ForeignKey('hit.id')) #belongs to HIT
+
+	def columns(self):
+		#Return the actual columns of a SQLAlchemy-mapped object
+		return [prop.key for prop in class_mapper(self.__class__).iterate_properties if isinstance(prop, ColumnProperty)]
+
+	def __repr__(self):
+		summary = ''
+		for column in self.columns():
+			summary = summary + str(column) + ':  ' + '%r \n' % (getattr(self, column))
+		return summary
+
 
 
 class Hit(db.Model):
@@ -44,8 +58,6 @@ class Hit(db.Model):
 	# the following are what we want to track
 	turk_input = db.Column(db.Text()) #resultant work of the Turk
 	events = db.relationship('Event', backref='HIT', lazy='dynamic')
-
-
 
 	def __repr__(self):
 		return 'ID: %r - %r \n Created at: %r \n Deadline: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n school: %r\n\n data dump: \n %r \n\n\n' % \

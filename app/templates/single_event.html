@@ -1,16 +1,16 @@
-{% block event %}
 
 
 {{ form.hidden_tag() }}
-  <div class="form-group">
-    <label for="event_host_name">Host for this event:</label>
-    {{ form.event_host_name(size=20, class="form-control", placeholder="e.g. UCLA Physics Dept.") }}
-  </div>
 
   <div class="form-group">
     <label for="event_name">Event name:</label>
     {{ form.event_name(size=20, class="form-control", placeholder="Career Fair") }}
   </div> 
+
+  <div class="form-group">
+    <label for="event_host_name">Host for this event:</label>
+    {{ form.event_host_name(size=20, class="form-control", placeholder="e.g. UCLA Physics Dept.") }}
+  </div>
 
   <div class="form-group">
     <label for="event_type">Event Type:</label>
@@ -102,5 +102,4 @@
     {{ form.event_page_url(size=50, class="form-control", placeholder="https://alumni.ucla.edu/event/bruin-professionals-long-beach-chapter-monthly-meeting/ ") }}
   </div> 
 
-{% endblock %}
  

@@ -1,0 +1,104 @@
+
+
+<div id="form">
+  {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="event_name">Event name:</label>
+      {{ form.event_name(size=20, class="form-control", placeholder="Career Fair") }}
+    </div> 
+
+    <div class="form-group">
+      <label for="event_host_name">Host for this event:</label>
+      {{ form.event_host_name(size=20, class="form-control", placeholder="e.g. UCLA Physics Dept.") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_type">Event Type:</label>
+      {{ form.event_type }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_on_campus">Is this an on-campus event?</label>
+      {{ form.event_on_campus }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_virtual">Is this a virtual event?</label>
+      {{ form.event_virtual }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_location">Event Location:</label>
+      {{ form.event_location(size=20, class="form-control", placeholder="e.g. 257 Old Newell Rd. Palo Alto, CA 94301") }}
+    </div>
+    
+    <div class="form-group">
+      <label for="event_description">Event Description:</label>
+      {{ form.event_description(rows=5,cols=20, class="form-control", placeholder="e.g. This is a career faire for science/engineering majors graduating in the fall.") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_start_date">Event start date:</label>
+      {{ form.event_start_date(size=20, class="form-control", placeholder="e.g. 11/27/2016") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_end_date">Event end date:</label>
+      {{ form.event_end_date(size=20, class="form-control", placeholder="e.g. 11/27/2016") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_virtual">Is this an all-day event?</label>
+      {{ form.event_all_day }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_start_time">Event start time:</label>
+      {{ form.event_start_time(size=20, class="form-control", placeholder="e.g. 11:00 AM") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_end_time">Event end time:</label>
+      {{ form.event_end_time(size=20, class="form-control", placeholder="e.g. 4:00 PM") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_time_zone">Event time zone:</label>
+      {{ form.event_time_zone }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_general_pricing">General Pricing (if applicable):</label>
+      {{ form.event_general_pricing(size=10, class="form-control", placeholder="e.g. \"free, $5.00, etc...\" ") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_member_pricing">Member Pricing (if applicable):</label>
+      {{ form.event_member_pricing(size=10, class="form-control", placeholder="e.g. $5.00") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_non_member_pricing">Non-member Pricing (if applicable):</label>
+      {{ form.event_non_member_pricing(size=10, class="form-control", placeholder="e.g. $10.00") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_registration_req">Event registration required?</label>
+      {{ form.event_registration_req }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_registration_url">Event registration URL:</label>
+      {{ form.event_registration_url(size=50, class="form-control", placeholder="https://alumni.ucla.edu/event/bruin-professionals-long-beach-chapter-monthly-meeting/ ") }}
+    </div>
+
+    <div class="form-group">
+      <label for="event_page_url">Event page URL:</label>
+      {{ form.event_page_url(size=50, class="form-control", placeholder="https://alumni.ucla.edu/event/bruin-professionals-long-beach-chapter-monthly-meeting/ ") }}
+    </div>
+
+    <input type="hidden" id="hit_id" value="{{ hit.id }}" name="hitId"/> 
+</div>
+
+</br></br>

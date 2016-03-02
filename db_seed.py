@@ -50,7 +50,11 @@ admin.password = 'joshua'
 db.session.add(admin)
 db.session.commit()
 
-
+#remove all existing events
+events = models.Event.query.all()
+for e in events:
+	db.session.delete(e)
+db.session.commit()
 
 hits = models.Hit.query.all()
 print('Done. DB dump follows:\n')

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<h3 class="bg-primary">Edit Event</h3>
+
+{% include "event_form.html" %}
+<input type="hidden" id="hit_id" value="{{ hit_id }}" name="hitId"/> 
+
+
+<input id="editEvent" type="Edit Event" class="btn btn-info" value="Edit Event">
+
+
+<script>
+$(document).ready(function() {
+
+	$("#editEvent").click(function(e) {
+		//e.preventDefault(); 
+		var values = {};
+		console.log('EDIT EVENT button clicked'); //sanity test
+		
+		$.each($(':input').serializeArray(), function(i, field) { //creates json object out of form and puts it in values
+		  values[field.name] = field.value;
+		});
+
+		//console.log('edited event'); //sanity test stuff
+		//console.log(values);
+		
+		$.ajax({ //POST event info to our server
+		  url: window.location.pathname, //current pathname
+		  type: 'POST',
+		  data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
+		  contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect
+		  success: function(result) { 
+			  console.log('POST request sent'); //another sanity test
+			  window.location.pathname='/hits/'+ values['hitId'].toString();
+		  } 
+		});
+	});
+});
+
+</script>
+
+{% endblock %}
