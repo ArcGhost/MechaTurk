@@ -3,6 +3,9 @@
 
 
 {% block content %}
+<div class="col-md-1"></div>
+<div class="col-md-10">
+
 <h3 class="bg-primary">Edit Event</h3>
 
 {% include "event_form.html" %}
@@ -25,21 +28,30 @@ $(document).ready(function() {
 		});
 
 		//console.log('edited event'); //sanity test stuff
-		//console.log(values);
+		console.log(values);
 		
 		$.ajax({ //POST event info to our server
-		  url: window.location.pathname, //current pathname
+		  url: '/event/edit/{{ event.id }}', //current pathname
 		  type: 'POST',
 		  data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
 		  contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect
 		  success: function(result) { 
 			  console.log('POST request sent'); //another sanity test
-			  window.location.pathname='/hits/'+ values['hitId'].toString();
+			  var hitid = values['hitId'].toString();
+			  var dest = '/hits/'.concat(hitid);
+			  console.log(hitid);
+			  console.log(dest);
+			  window.location.pathname = dest;
 		  } 
 		});
 	});
 });
 
 </script>
+
+</div>
+<div class="col-md-1"></div>
+
+
 
 {% endblock %}

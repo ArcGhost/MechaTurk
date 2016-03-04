@@ -183,36 +183,19 @@ def recreateHIT(id):
 @app.route('/test')
 def test():
 	form = EventForm()
-	hit_id = '60'
-	return render_template('test.html', form = form, hit_id = hit_id, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],)
+	hit = models.Hit.query.get(92)
+	return render_template('test.html', form = form, hit= hit, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'], hit_id = hit.id)
 
 @app.route('/ajaxcall', methods=['POST'])
 def ajaxcall():
 	eventData = request.get_json() # puts request JSON in a python dict
 	e = models.Event()
-	e.host_name = eventData['event_host_name']
-	e.event_name = eventData['event_name']
-	e.event_type = eventData['event_type']
-	e.on_campus = eventData['event_on_campus']
-	e.virtual = eventData['event_virtual']
-	e.location = eventData['event_location']
-	e.description = eventData['event_description']
-	e.start_date = eventData['event_start_date']
-	e.end_date = eventData['event_end_date']
-	e.start_time = eventData['event_start_time']
-	e.end_time = eventData['event_end_time']
-	e.time_zone = eventData['event_time_zone']
-	e.all_day = eventData['event_all_day']
-	e.general_pricing = eventData['event_general_pricing']
-	e.member_pricing = eventData['event_member_pricing']
-	e.non_member_pricing = eventData['event_non_member_pricing']
-	e.registration_req = eventData['event_registration_req']
-	e.registration_url = eventData['event_registration_url']
-	e.event_page_url = eventData['event_page_url']
+	for key in eventData:
+			setattr(e, key, eventData[key])
 	e.hit_id = eventData['hitId']
 	db.session.add(e)
 	db.session.commit()
-	response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['event_start_date'] + "</td></tr>"
+	response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['start_date'] + "</td></tr>"
 	return response_html
 
 
@@ -220,52 +203,21 @@ def ajaxcall():
 @login_required
 def edit_event(id):
 	e = models.Event.query.get(id)
-	h = e.hit_id
+	hit_id = e.hit_id
 	form = EventForm()
 	if request.method == 'GET':
-		form.event_host_name.data = e.host_name
-		form.event_name.data = e.event_name
-		form.event_type.data = e.event_type
-		form.event_on_campus.data = e.on_campus
-		form.event_virtual.data = e.virtual
-		form.event_location.data = e.location
-		form.event_description.data = e.description
-		form.event_start_date.data = e.start_date
-		form.event_end_date.data = e.end_date
-		form.event_start_time.data = e.start_time
-		form.event_end_time.data = e.end_time
-		form.event_time_zone.data = e.time_zone
-		form.event_all_day.data = e.all_day
-		form.event_general_pricing.data = e.general_pricing
-		form.event_member_pricing.data = e.member_pricing
-		form.event_non_member_pricing.data = e.non_member_pricing
-		form.event_registration_req.data = e.registration_req
-		form.event_registration_url.data = e.registration_url
-		form.event_page_url.data = e.event_page_url
-		return render_template('edit_event.html', form = form, event = e, hit = h )
+		#print e.virtual
+		form = EventForm(obj=e)
+		return render_template('edit_event.html', form = form, event = e, hit_id = hit_id )
 	if request.method == 'POST':
 		eventData = request.get_json()
-		e.host_name = eventData['event_host_name']
-		e.event_name = eventData['event_name']
-		e.event_type = eventData['event_type']
-		e.on_campus = eventData['event_on_campus']
-		e.virtual = eventData['event_virtual']
-		e.location = eventData['event_location']
-		e.description = eventData['event_description']
-		e.start_date = eventData['event_start_date']
-		e.end_date = eventData['event_end_date']
-		e.start_time = eventData['event_start_time']
-		e.end_time = eventData['event_end_time']
-		e.time_zone = eventData['event_time_zone']
-		e.all_day = eventData['event_all_day']
-		e.general_pricing = eventData['event_general_pricing']
-		e.member_pricing = eventData['event_member_pricing']
-		e.non_member_pricing = eventData['event_non_member_pricing']
-		e.registration_req = eventData['event_registration_req']
-		e.registration_url = eventData['event_registration_url']
-		e.event_page_url = eventData['event_page_url']
+		for key in eventData:
+			setattr(e, key, eventData[key])
 		db.session.commit()
-		return redirect('/hits/' + str(e.hit_id)) #no idea why url_for doesn't work here
+		dest = '/hits/' + str(hit_id)
+		print dest
+		return redirect(dest) #no idea why url_for doesn't work here
+
 
 
 

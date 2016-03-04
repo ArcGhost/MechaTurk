@@ -26,6 +26,8 @@
       </div>
     </div>
 
+
+
   </head>
 
   <body>
@@ -34,8 +36,6 @@
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
-       
-        
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             <b>
@@ -45,13 +45,15 @@
             </b>
           {% endif %}
         {% endwith %}
-
-        {% block content %}
-        {% endblock %}
-        
       </div>
       <div class="col-md-1"></div>
     </div>
+
+        {% block content %}
+        {% endblock %}
+
+
+
   </br></br></br></br></br></br>
 
   </body>

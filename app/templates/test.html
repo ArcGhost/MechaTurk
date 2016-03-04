@@ -57,10 +57,14 @@
         <form action="{{ external_submit_url }}" method="post" name="">
           {% include "event_form.html" %}
         
-          <button id="submitEvent" class="btn btn-info" value="Log Event">Log Event</button>
-          </br></br></br>
-          <input id="submitTask" type="submit" class="btn btn-danger" value="Submit Task">
-
+          {# {% if worker_id %} #}
+            <button id="submitEvent" class="btn btn-info" value="Log Event">Log Event</button>
+            </br></br></br>
+            <input id="submitTask" type="submit" class="btn btn-danger" value="Submit Task">
+          {# {% else %}
+            <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
+          {% endif %} #}
+         
 
         </form>
 
@@ -149,15 +153,6 @@
                   }
               });
           });
-
-
-
-
-
-
-
-
-
 
 
         });

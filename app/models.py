@@ -5,6 +5,8 @@ from sqlalchemy.orm import class_mapper, ColumnProperty
 import sqlalchemy
 
 
+
+
 class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True) #assigned by us
 	event_name = db.Column(db.String(128))
@@ -40,6 +42,8 @@ class Event(db.Model):
 
 
 
+
+
 class Hit(db.Model):
 	id = db.Column(db.Integer, primary_key=True) #assigned by us
 	# the following are required for HIT creation / manipulation
@@ -56,12 +60,14 @@ class Hit(db.Model):
 	deadline = db.Column(db.Integer) #given by Tassl employee, days to complete assignment
 	school = db.Column(db.String(128)) #given by Tassl employee
 	# the following are what we want to track
-	turk_input = db.Column(db.Text()) #resultant work of the Turk
+	# turk_input = db.Column(db.Text()) #resultant work of the Turk
 	events = db.relationship('Event', backref='HIT', lazy='dynamic')
 
 	def __repr__(self):
-		return 'ID: %r - %r \n Created at: %r \n Deadline: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n school: %r\n\n data dump: \n %r \n\n\n' % \
-		(self.id, self.title, self.created_at, self.deadline, self.hit_id, self.status, self.url, self.bounty, self.school, self.turk_input)
+		return 'ID: %r - %r \n Created at: %r \n Deadline: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n school: %r\n\n Events: \n %r \n\n\n' % \
+		(self.id, self.title, self.created_at, self.deadline, self.hit_id, self.status, self.url, self.bounty, self.school, self.events)
+
+
 
 
 
