@@ -133,7 +133,6 @@ def hit_consignment(id):
 						hit = h,
 						provided_link= h.url,
 						provided_description= h.title,
-						hit_id = task_id,
 						worker_id = worker_id,
 						assignment_id = request.args.get("assignmentId"),
 						external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
@@ -201,12 +200,12 @@ def logevent():
 @login_required
 def edit_event(id):
 	e = models.Event.query.get(id)
-	hit_id = e.hit_id
+	hit = models.Hit.query.get(e.hit_id)
 	form = EventForm()
 	if request.method == 'GET':
 		#print e.virtual
 		form = EventForm(obj=e)
-		return render_template('edit_event.html', form = form, event = e, hit_id = hit_id )
+		return render_template('edit_event.html', form = form, event = e, hit = hit )
 	if request.method == 'POST':
 		eventData = request.get_json()
 		for key in eventData:
