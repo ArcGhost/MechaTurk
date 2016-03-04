@@ -12,28 +12,13 @@
 
   <body>
     <div class="row"></div>
-    <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <b>
-            {% for message in messages %}
-                <p><font color="red">{{ message }}</font></p>
-            {% endfor %}
-            </b>
-          {% endif %}
-        {% endwith %}
-      </div>
-      <div class="col-md-1"></div>
-    </div>
 
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <h3>Greetings and salutations, Turk!</h3>
           <ul>
-            <li> Firstly, open the following link in a new tab or browser window: https://happenings.ucla.edu/ </li>
+            <li> Firstly, open the following link in a new tab or browser window: <a href="{{hit.url}}">{{hit.url}}</a> </li>
             <li> For each event listed on that page, please copy down the event information into the form below. </li>
             <li> Fill in as much information as possible.  If information is unavailable or inapplicable, leave the field blank. </li>
             <li> When done with the event, you can press the "Log Event" button at the bottom of the form. </li>
@@ -57,13 +42,13 @@
         <form action="{{ external_submit_url }}" method="post" name="">
           {% include "event_form.html" %}
         
-          {# {% if worker_id %} #}
+          {% if worker_id %}
             <button id="submitEvent" class="btn btn-info" value="Log Event">Log Event</button>
             </br></br></br>
             <input id="submitTask" type="submit" class="btn btn-danger" value="Submit Task">
-          {# {% else %}
+          {% else %}
             <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
-          {% endif %} #}
+          {% endif %}
          
 
         </form>

@@ -50,27 +50,35 @@
 <div class="col-md-1"></div>
 
 
-  <div class="container">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
+
       {% if hit.status == 'reviewable' %}
-      <form action="" method="" name="">
-          {{ form.hidden_tag() }}
-          <div class="form-group">
-            <label for="feedback">Enter feedback for this task [optional]:</label></br>
-            {{ form.feedback(size=100, class="form-control", placeholder="e.g. Great work. Make sure to divide the field information specifically with a [space], a vertical line, and another [space].") }}
-          </div></br>
-          <a class="btn btn-default btn-success" href="/hits/{{hit.id}}/approved">Approve</a>
-          <a class="btn btn-default btn-danger pull-right" href="/hits/{{hit.id}}/rejected">Reject</a>
-      </form>
+      <div class="container">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <form action="" method="" name="">
+              {{ form.hidden_tag() }}
+              <div class="form-group">
+                <label for="feedback">Enter feedback for this task [optional]:</label></br>
+                {{ form.feedback(size=100, class="form-control", placeholder="e.g. Great work. Make sure to divide the field information specifically with a [space], a vertical line, and another [space].") }}
+              </div></br>
+              <a class="btn btn-default btn-success" href="/hits/{{hit.id}}/approved">Approve</a>
+              <a class="btn btn-default btn-danger pull-right" href="/hits/{{hit.id}}/rejected">Reject</a>
+          </form>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
       {% endif %}
 
+
       {% if hit.status == 'open' %} <!--this is so that HITs can't be expired if already expired, and we don't have sync issues with Amazon -->
-      <a class="btn btn-default btn-warning" href="/hits/recreate/{{hit.id}}">Edit & Relist</a>
+      <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <a class="btn btn-default btn-warning" href="/hits/recreate/{{hit.id}}">Edit & Relist</a>
+        </div>
+      <div class="col-md-1"></div>  
       {% endif %}
-    </div>
-    <div class="col-md-1"></div>
-  </div>
+    
+
 
 {% endblock %}
 
