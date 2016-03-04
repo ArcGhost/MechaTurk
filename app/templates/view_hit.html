@@ -30,7 +30,7 @@
 <div class="container col-md-10">
   {% if hit.events.all() %}
       {% for event in events %}
-          <h4 class="bg-info">EVENT-ID: {{ event.id }}</h4>
+          <h4 class="bg-info" id="event{{ event.id }}">EVENT-ID: {{ event.id }}</h4>
           <table class="table table-hover table-striped table-condensed">
             {% for col in event.columns()[1:-1] %} 
               <tr>

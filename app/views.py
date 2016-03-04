@@ -41,6 +41,7 @@ def index():
 			return redirect(url_for('index'))
 	return render_template('signin.html', form=form)
 
+
 @app.route('/signout') #signout page
 def signout():
 	logout_user()
@@ -52,6 +53,7 @@ def signout():
 def all_hits():
 	hits = Hit.query.order_by(desc(Hit.id)).all()
 	return render_template('all_hits.html', hits=hits)
+
 
 @app.route('/hits/<id>') #admin view for an HIT
 @login_required
@@ -147,7 +149,6 @@ def hit_consignment(id):
 		return 'success'
 
 
-
 @app.route('/hits/recreate/<id>', methods=['GET', 'POST'])
 @login_required
 def recreateHIT(id):
@@ -180,14 +181,9 @@ def recreateHIT(id):
 		db.session.commit()
 		return redirect(url_for('all_hits')) #can be changed later
 
-@app.route('/test')
-def test():
-	form = EventForm()
-	hit = models.Hit.query.get(92)
-	return render_template('test.html', form = form, hit= hit, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'], hit_id = hit.id)
 
-@app.route('/ajaxcall', methods=['POST'])
-def ajaxcall():
+@app.route('/logevent', methods=['POST'])
+def logevent():
 	eventData = request.get_json() # puts request JSON in a python dict
 	e = models.Event()
 	for key in eventData:
@@ -219,5 +215,10 @@ def edit_event(id):
 		return redirect(dest) #no idea why url_for doesn't work here
 
 
-
-
+'''
+@app.route('/test')
+def test():
+	form = EventForm()
+	hit = models.Hit.query.get(92)
+	return render_template('test.html', form = form, hit= hit, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'], hit_id = hit.id)
+'''

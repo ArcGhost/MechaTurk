@@ -119,7 +119,7 @@
 
 
             $.ajax({ //POST event info to our server
-              url: '/ajaxcall',
+              url: '/logevent',
               type: 'POST',
               data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
               contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect

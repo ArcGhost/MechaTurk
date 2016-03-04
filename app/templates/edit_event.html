@@ -41,7 +41,7 @@ $(document).ready(function() {
 			  var dest = '/hits/'.concat(hitid);
 			  console.log(hitid);
 			  console.log(dest);
-			  window.location.pathname = dest;
+			  window.location.pathname = dest;//.concat('#event{{event.id}}');
 		  } 
 		});
 	});
