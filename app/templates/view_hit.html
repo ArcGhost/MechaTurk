@@ -22,39 +22,29 @@
 
     <p><b>INSTRUCTIONS GIVEN:</b></br>"{{ hit.instructions }}"</p>
     </br></br>
-  </div>
-  <div class="col-md-1"></div>
-</div>
-
-<div class="col-md-1"></div>
-<div class="container col-md-10">
-  {% if hit.events.all() %}
-      {% for event in events %}
-          <h4 class="bg-info" id="event{{ event.id }}">EVENT-ID: {{ event.id }}</h4>
-          <table class="table table-hover table-striped table-condensed">
-            {% for col in event.columns()[1:-1] %} 
-              <tr>
-                <td>{{ col }}</td>
-                <td class="text-right">{{ event[col] }}</td>
-              </tr>
-            {% endfor %} 
-          </table> 
-          </br>
-          <a class="btn btn-default btn-warning pull-right" href="/event/edit/{{event.id}}" role="button">Edit this Event</a>
-          </br></br></br></br>
-      {% endfor %}
-  {% else %}
-    <h4>A worker has not yet completed this assignment.</h4>
-  {% endif %}
-</div>
-<div class="col-md-1"></div>
 
 
+    {% if hit.events.all() %}
+        {% for event in events %}
+            <h4 class="bg-info" id="event{{ event.id }}">EVENT-ID: {{ event.id }}</h4>
+            <table class="table table-hover table-striped table-condensed">
+              {% for col in event.columns()[1:-1] %} 
+                <tr>
+                  <td>{{ col }}</td>
+                  <td class="text-right">{{ event[col] }}</td>
+                </tr>
+              {% endfor %} 
+            </table> 
+            </br>
+            <a class="btn btn-default btn-warning pull-right" href="/event/edit/{{event.id}}" role="button">Edit this Event</a>
+            </br></br></br></br>
+        {% endfor %}
+    {% else %}
+      <h4>A worker has not yet completed this assignment.</h4>
+    {% endif %}
 
-      {% if hit.status == 'reviewable' %}
-      <div class="container">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
+
+    {% if hit.status == 'reviewable' %}
           <form action="" method="" name="">
               {{ form.hidden_tag() }}
               <div class="form-group">
@@ -64,21 +54,16 @@
               <a class="btn btn-default btn-success" href="/hits/{{hit.id}}/approved">Approve</a>
               <a class="btn btn-default btn-danger pull-right" href="/hits/{{hit.id}}/rejected">Reject</a>
           </form>
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-      {% endif %}
+    {% endif %}
 
 
-      {% if hit.status == 'open' %} <!--this is so that HITs can't be expired if already expired, and we don't have sync issues with Amazon -->
-      <div class="col-md-1"></div>
-        <div class="col-md-10">
-          <a class="btn btn-default btn-warning" href="/hits/recreate/{{hit.id}}">Edit & Relist</a>
-        </div>
-      <div class="col-md-1"></div>  
-      {% endif %}
+    {% if hit.status == 'open' %} <!--this is so that HITs can't be expired if already expired, and we don't have sync issues with Amazon -->
+      </br></br>
+      <a class="btn btn-default btn-warning" href="/hits/recreate/{{hit.id}}">Edit & Relist</a>
+    {% endif %}
     
-
+      </div>
+<div class="col-md-1"></div>
 
 {% endblock %}
 
