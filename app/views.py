@@ -127,10 +127,11 @@ def hit_consignment(id):
 		worker_id = request.args.get("workerId")
 		h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
-		task_id = request.args.get("hitId")
+		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
 		return render_template('test.html', 
 						id = id,
 						hit = h,
+						hit_id = task_id,
 						provided_link= h.url,
 						provided_description= h.title,
 						worker_id = worker_id,
@@ -189,7 +190,7 @@ def logevent():
 	e = models.Event()
 	for key in eventData:
 			setattr(e, key, eventData[key])
-	e.hit_id = eventData['hitId']
+	e.hit_id = eventData['eventHit']
 	db.session.add(e)
 	db.session.commit()
 	response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['start_date'] + "</td></tr>"
@@ -200,12 +201,12 @@ def logevent():
 @login_required
 def edit_event(id):
 	e = models.Event.query.get(id)
-	hit = models.Hit.query.get(e.hit_id)
+	hit_id = e.hit_id #get the id of the Hit the event corresponds to, as indexed by our db
 	form = EventForm()
 	if request.method == 'GET':
 		#print e.virtual
 		form = EventForm(obj=e)
-		return render_template('edit_event.html', form = form, event = e, hit = hit )
+		return render_template('edit_event.html', form = form, event = e, hit_id = hit_id )
 	if request.method == 'POST':
 		eventData = request.get_json()
 		for key in eventData:

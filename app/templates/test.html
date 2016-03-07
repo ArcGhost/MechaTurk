@@ -44,6 +44,8 @@
           <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
           <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
           <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
+          <input type="hidden" id="eventHit" value="{{ id }}" name="eventHit"/>
+
           {% if worker_id %}
             <button id="submitEvent" class="btn btn-info" value="Log Event">Log Event</button>
             </br></br></br>
