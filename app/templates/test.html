@@ -100,6 +100,7 @@
 
             events.push(values); //put into all-events array
 
+
             console.log('current events:'); //sanity test stuff
             console.log(events); 
             console.log('num events: ' + numEvents);
@@ -119,7 +120,6 @@
                   $('#eventsTable tr:last').after(result) //insert response here
               } 
             });
-
 
             $("#form").find('input:text, input:password, input:file, select, textarea').val(''); //reset all entered text
             $("#form").find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected'); //reset all radio buttons and drop-down selects
