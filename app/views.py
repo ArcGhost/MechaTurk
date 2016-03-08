@@ -147,7 +147,7 @@ def hit_consignment(id):
 		h.status = 'reviewable'
 		h.worker_id = request.args.get("workerId")
 		db.session.commit()
-		flash('Turk input been recorded.')
+		#flash('Turk input been recorded.')
 		return 'success'
 
 
