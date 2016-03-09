@@ -204,14 +204,18 @@ def edit_event(id):
 	hit_id = e.hit_id #get the id of the Hit the event corresponds to, as indexed by our db
 	form = EventForm()
 	if request.method == 'GET':
-		#print e.virtual
 		form = EventForm(obj=e)
 		return render_template('edit_event.html', form = form, event = e, hit_id = hit_id )
 	if request.method == 'POST':
+		for fieldname, value in form.data.items():
+			setattr(e, fieldname, value)
+		# print e #sanity test
+		db.session.commit()
+		'''
 		eventData = request.get_json()
 		for key in eventData:
 			setattr(e, key, eventData[key])
-		db.session.commit()
+		'''
 		dest = '/hits/' + str(hit_id)
 		print dest
 		return redirect(dest) #no idea why url_for doesn't work here
