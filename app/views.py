@@ -124,7 +124,7 @@ def hit_consignment(id):
 	events = range(2)
 	if request.method == 'GET':
 		#get the following variables from Amazon when the GET request originates from there
-		worker_id = request.args.get("workerId")
+		h.worker_id = request.args.get("workerId")
 		h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
 		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
@@ -134,7 +134,7 @@ def hit_consignment(id):
 						hit_id = task_id,
 						provided_link= h.url,
 						provided_description= h.title,
-						worker_id = worker_id,
+						worker_id = h.worker_id,
 						assignment_id = request.args.get("assignmentId"),
 						external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
 						events = events,
@@ -173,11 +173,12 @@ def recreateHIT(id):
 		q.bounty = form.hit_bounty.data
 		q.instructions = form.hit_instructions.data
 		q.created_at = datetime.datetime.now()
+		q.deadline = int(form.hit_deadline.data)
 		db.session.add(q)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
 		#create_task(id, title, description, keywords, bounty)
-		AWS_id = create_task(q.id, q.title, q.instructions, form.hit_keywords.data.split(','), q.bounty)
+		AWS_id = create_task(q.id, q.title, q.instructions, form.hit_keywords.data.split(','), q.deadline, q.bounty)
 		#then need to update our DB with the task-ID as assigned by Amazon
 		q.hit_id = AWS_id
 		db.session.commit()

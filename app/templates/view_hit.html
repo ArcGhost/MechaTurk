@@ -6,7 +6,7 @@
   <div class="col-md-10">
     <h2><a href="{{ hit.url }}">{{ hit.title }}</a></h2>
     <h4>School: {{hit.school.upper()}} </h4>
-    <h4>HIT #: {{hit.hit_id}}</h4>
+    <h4>AWS HIT ID: {{hit.hit_id}}</h4>
     <h4>Created: {{ hit.created_at | days_ago }} day(s) ago</h4>
     <h4>Worker ID: {% if hit.worker_id %}{{hit.worker_id}}{% else %}N/A{% endif %}</h4>
     <h4>Bounty: ${{ hit.bounty }}</h4>
@@ -49,7 +49,7 @@
               {{ form.hidden_tag() }}
               <div class="form-group">
                 <label for="feedback">Enter feedback for this task [optional]:</label></br>
-                {{ form.feedback(size=100, class="form-control", placeholder="e.g. Great work. Make sure to divide the field information specifically with a [space], a vertical line, and another [space].") }}
+                {{ form.feedback(size=100, class="form-control", placeholder="e.g. Great work. Make sure to always include as much information as possible for each event.") }}
               </div></br>
               <a class="btn btn-default btn-success" href="/hits/{{hit.id}}/approved">Approve</a>
               <a class="btn btn-default btn-danger pull-right" href="/hits/{{hit.id}}/rejected">Reject</a>
