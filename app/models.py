@@ -61,7 +61,7 @@ class Hit(db.Model):
 	school = db.Column(db.String(128)) #given by Tassl employee
 	# the following are what we want to track
 	# turk_input = db.Column(db.Text()) #resultant work of the Turk
-	events = db.relationship('Event', backref='HIT', lazy='dynamic')
+	events = db.relationship('Event', backref='hit', lazy='dynamic')
 
 	def __repr__(self):
 		return 'ID: %r - %r \n Created at: %r \n Deadline: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n school: %r\n\n Events: \n %r \n\n\n' % \

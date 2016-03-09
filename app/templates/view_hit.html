@@ -25,24 +25,42 @@
 
 
     {% if hit.events.all() %}
+    <h4 class="text-info">Turk Input:</h4>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         {% for event in events %}
-            <h4 class="bg-info" id="event{{ event.id }}">EVENT-ID: {{ event.id }}</h4>
-            <table class="table table-hover table-striped table-condensed">
-              {% for col in event.columns()[1:-1] %} 
-                <tr>
-                  <td>{{ col }}</td>
-                  <td class="text-right">{{ event[col] }}</td>
-                </tr>
-              {% endfor %} 
-            </table> 
-            </br>
-            <a class="btn btn-default btn-warning pull-right" href="/event/edit/{{event.id}}" role="button">Edit this Event</a>
-            </br></br></br></br>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading{{event.id}}">
+              <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{event.id}}" aria-expanded="false" aria-controls="collapse{{event.id}}">EVENT: {{ event.event_name }}</a>
+              </h4>
+            </div>
+            <div id="collapse{{event.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{event.id}}">
+              <div class="panel-body">
+                <table class="table table-hover table-striped table-condensed">
+                  <tr>
+                    <td>school</td>
+                    <td class="text-right">{{ event.hit.school }}</td>
+                  </tr>
+                  {% for col in event.columns()[:-1] %} 
+                    <tr>
+                      <td>{{ col }}</td>
+                      <td class="text-right">{{ event[col] }}</td>
+                    </tr>
+                  {% endfor %} 
+                </table> 
+                </br>
+                <a class="btn btn-default btn-warning pull-right" href="/event/edit/{{event.id}}" role="button">Edit this Event</a>
+                </br></br>
+              </div>
+            </div>
+          </div>  
         {% endfor %}
+    </div>
     {% else %}
       <h4>A worker has not yet completed this assignment.</h4>
     {% endif %}
 
+    </br></br>
 
     {% if hit.status == 'reviewable' %}
           <form action="" method="" name="">
