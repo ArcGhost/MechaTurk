@@ -61,6 +61,8 @@ def view_hit(id):
 	h = models.Hit.query.get(id)
 	form = FeedbackForm()
 	events = h.events.all()
+	events = sorted(events, key = lambda x:x.id)
+	print events
 	return render_template('view_hit.html', 
 						hit = h,
 						events = events, 
