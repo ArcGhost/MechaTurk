@@ -62,7 +62,7 @@ def view_hit(id):
 	form = FeedbackForm()
 	events = h.events.all()
 	events = sorted(events, key = lambda x:x.id) #sort by id
-	print events
+	#print events
 	return render_template('view_hit.html', 
 						hit = h,
 						events = events, 
@@ -126,9 +126,13 @@ def hit_consignment(id):
 	events = range(2)
 	if request.method == 'GET':
 		#get the following variables from Amazon when the GET request originates from there
+		'''
 		h.worker_id = request.args.get("workerId")
 		h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
+		print h.worker_id
+		print h.assignment_id
+		'''
 		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
 		return render_template('test.html', 
 						id = id,
@@ -148,6 +152,9 @@ def hit_consignment(id):
 		# our parsing goes here, or data can just be entered into our db directly; data is sanitized by wtforms when .data is called
 		h.status = 'reviewable'
 		h.worker_id = request.args.get("workerId")
+		h.assignment_id = request.args.get("assignmentId")
+		print "worker id: ", h.worker_id
+		print "assignment id: ", h.assignment_id
 		db.session.commit()
 		#flash('Turk input been recorded.')
 		return 'success'
