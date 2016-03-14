@@ -42,8 +42,6 @@ class Event(db.Model):
 
 
 
-
-
 class Hit(db.Model):
 	id = db.Column(db.Integer, primary_key=True) #assigned by us
 	# the following are required for HIT creation / manipulation
@@ -86,7 +84,7 @@ class User(db.Model):
 	@hybrid_property
 	def password(self):
 		return self._password
-
+		
 	@password.setter
 	def _set_password(self, plaintext):
 		self._password = bcrypt.generate_password_hash(plaintext)

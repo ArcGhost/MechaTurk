@@ -149,6 +149,7 @@ def hit_consignment(id):
 		h.status = 'reviewable'
 		h.worker_id = request.args.get("workerId")
 		h.assignment_id = request.args.get("assignmentId")
+		print request.args
 		print "worker id: ", h.worker_id
 		print "assignment id: ", h.assignment_id
 		db.session.commit()
