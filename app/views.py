@@ -126,9 +126,10 @@ def hit_consignment(id):
 	events = range(2)
 	if request.method == 'GET':
 		#get the following variables from Amazon when the GET request originates from there
-		if request.args.get("workerId"): #prevent overwrite on late viewings via AWS
-			h.worker_id = request.args.get("workerId")
-		if request.args.get("assignmentId") != 'ASSIGNMENT_ID_NOT_AVAILABLE': #prevent overwrite on late viewings via AWS
+		if request.args.get("workerId"): #prevent overwrite on GET via AWS by Tassl Employee
+			h.worker_id = request.args.get("workerId") #could break if worker gives up assignment
+			h.status = 'in progress'
+		if request.args.get("assignmentId") != 'ASSIGNMENT_ID_NOT_AVAILABLE': #prevent overwrite on GET via AWS by Tassl Employee
 			h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
 		print "worker id: ", h.worker_id
@@ -147,11 +148,7 @@ def hit_consignment(id):
 						form=form)
 	if request.method == 'POST':
 		h.status = 'reviewable'
-		print request.args
-		print "worker id: ", h.worker_id
-		print "assignment id: ", h.assignment_id
 		db.session.commit()
-		#flash('Turk input been recorded.')
 		return 'success'
 
 
