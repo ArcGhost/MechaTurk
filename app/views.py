@@ -128,7 +128,7 @@ def hit_consignment(id):
 		#get the following variables from Amazon when the GET request originates from there
 		if request.args.get("workerId") != 'ASSIGNMENT_ID_NOT_AVAILABLE':
 			h.worker_id = request.args.get("workerId")
-		if request.args.get("assignmentId") != None:
+		if request.args.get("assignmentId"):
 			h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
 		print "worker id: ", h.worker_id
