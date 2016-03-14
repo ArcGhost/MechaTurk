@@ -126,13 +126,11 @@ def hit_consignment(id):
 	events = range(2)
 	if request.method == 'GET':
 		#get the following variables from Amazon when the GET request originates from there
-		'''
 		h.worker_id = request.args.get("workerId")
 		h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
-		print h.worker_id
-		print h.assignment_id
-		'''
+		print "worker id: ", h.worker_id
+		print "assignment id: ", h.assignment_id
 		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
 		return render_template('test.html', 
 						id = id,
@@ -141,14 +139,12 @@ def hit_consignment(id):
 						provided_link= h.url,
 						provided_description= h.title,
 						worker_id = h.worker_id,
-						assignment_id = request.args.get("assignmentId"),
+						assignment_id = h.assignment_id,
 						external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
 						events = events,
 						form=form)
 	if request.method == 'POST':
 		h.status = 'reviewable'
-		h.worker_id = request.args.get("workerId")
-		h.assignment_id = request.args.get("assignmentId")
 		print request.args
 		print "worker id: ", h.worker_id
 		print "assignment id: ", h.assignment_id
