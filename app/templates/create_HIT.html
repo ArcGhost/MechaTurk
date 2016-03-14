@@ -12,37 +12,37 @@
       {{ form.hidden_tag() }}
       <div class="form-group">
         <label for="title">Enter a descriptive title for this task:</label>
-        {{ form.hit_title(size=100, class="form-control", placeholder="e.g. UCLA Physics Alumni Fall Events") }}
+        {{ form.title(size=100, class="form-control", placeholder="e.g. UCLA Physics Alumni Fall Events") }}
       </div>
       
       <div class="form-group">
         <label for="bounty">Enter the bounty for this task:</label>
-        {{ form.hit_bounty(size=6, class="form-control", placeholder="e.g. 4.50") }}
+        {{ form.bounty(size=6, class="form-control", placeholder="e.g. 4.50") }}
       </div>
 
       <div class="form-group">
         <label for="deadline">Enter the integer number of days a worker has to complete this task:</label>
-        {{ form.hit_deadline(size=6, class="form-control", placeholder="e.g. 7 (for one week)") }}
+        {{ form.deadline(size=6, class="form-control", placeholder="e.g. 7 (for one week)") }}
       </div>
 
       <div class="form-group">
         <label for="school">Enter the school affiliated with this task:</label>
-        {{ form.hit_school(class="form-control", placeholder="e.g. Penn State") }}
+        {{ form.school(class="form-control", placeholder="e.g. Penn State") }}
       </div>
 
       <div class="form-group">
         <label for="url">Enter the URL at which the information for the task can be found:</label>
-        {{ form.hit_url(size=100, class="form-control", placeholder="e.g. http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php") }}
+        {{ form.url(size=100, class="form-control", placeholder="e.g. http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php") }}
       </div>
 
       <div class="form-group">
         <label for="instructions">Enter instructions for this task. This will be directed directly at the workers, so specificity is important.</label>
-        {{ form.hit_instructions(rows=5,cols=100, class="form-control", placeholder="e.g. This is a data entry task. For each event in the provided link, please enter all information that applies, and leave fields blank where information is inapplicable or not available.") }}
+        {{ form.instructions(rows=5,cols=100, class="form-control", placeholder="e.g. This is a data entry task. For each event in the provided link, please enter all information that applies, and leave fields blank where information is inapplicable or not available.") }}
       </div>
 
       <div class="form-group">
         <label for="keywords">Enter a comma-delimited list of keywords for this task. This is a list of words that Workers will use to find your HITs.</label>
-        {{ form.hit_keywords(rows=1,cols=50, class="form-control", placeholder="e.g. alumni, Tassl, data collection, college football") }}
+        {{ form.keywords(rows=1,cols=50, class="form-control", placeholder="e.g. alumni, Tassl, data collection, college football") }}
       </div>      
 
       <input type="submit" class="btn btn-info" value="Submit">

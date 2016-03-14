@@ -97,20 +97,20 @@ def createHIT():
 		return render_template('create_HIT.html', form=form)
 	if request.method == 'POST':
 		h = models.Hit() #need to create with our DB first
-		h.title = form.hit_title.data
-		h.url = form.hit_url.data
+		h.title = form.title.data
+		h.url = form.url.data
 		h.status = "open"
-		h.bounty = form.hit_bounty.data
-		h.instructions = form.hit_instructions.data
-		h.keywords = form.hit_keywords.data
+		h.bounty = form.bounty.data
+		h.instructions = form.instructions.data
+		h.keywords = form.keywords.data
 		h.created_at = datetime.datetime.now()
-		h.deadline = int(form.hit_deadline.data)
-		h.school = form.hit_school.data
+		h.deadline = int(form.deadline.data)
+		h.school = form.school.data
 		db.session.add(h)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
 		#create_task(id, title, description, keywords, deadline, bounty)
-		AWS_id = create_task(h.id, h.title, h.instructions, form.hit_keywords.data.split(','), h.deadline, h.bounty)
+		AWS_id = create_task(h.id, h.title, h.instructions, h.keywords.split(','), h.deadline, h.bounty)
 
 
 		#then need to update our DB with the task-ID as assigned by Amazon
@@ -161,25 +161,24 @@ def recreateHIT(id):
 	mturk.expire_hit(h.hit_id) #expire old HIT in Amazon
 	form = CreateHITForm()
 	if request.method == 'GET': #populate with existing data
-		form.hit_title.data = h.title
-		form.hit_url.data = h.url
-		form.hit_instructions.data = h.instructions
-		form.hit_bounty.data = h.bounty
+		form = CreateHITForm(obj=h)
 		return render_template('create_HIT.html', form=form)
 	if request.method == 'POST':
 		q = models.Hit() #need to create a new model with our DB first
-		q.title = form.hit_title.data
-		q.url = form.hit_url.data
+		q.title = form.title.data
+		q.url = form.url.data
 		q.status = "open"
-		q.bounty = form.hit_bounty.data
-		q.instructions = form.hit_instructions.data
+		q.bounty = form.bounty.data
+		q.instructions = form.instructions.data
+		q.keywords = form.keywords.data
 		q.created_at = datetime.datetime.now()
-		q.deadline = int(form.hit_deadline.data)
+		q.deadline = int(form.deadline.data)
+		q.school = form.school.data
 		db.session.add(q)
 		db.session.commit()
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
-		#create_task(id, title, description, keywords, bounty)
-		AWS_id = create_task(q.id, q.title, q.instructions, form.hit_keywords.data.split(','), q.deadline, q.bounty)
+		#create_task(id, title, description, keywords, deadline, bounty)
+		AWS_id = create_task(q.id, q.title, q.instructions, q.keywords.split(','), q.deadline, q.bounty)
 		#then need to update our DB with the task-ID as assigned by Amazon
 		q.hit_id = AWS_id
 		db.session.commit()
@@ -213,11 +212,6 @@ def edit_event(id):
 			setattr(e, fieldname, value)
 		# print e #sanity test
 		db.session.commit()
-		'''
-		eventData = request.get_json()
-		for key in eventData:
-			setattr(e, key, eventData[key])
-		'''
 		dest = '/hits/' + str(hit_id)
 		print dest
 		return redirect(dest) #no idea why url_for doesn't work here

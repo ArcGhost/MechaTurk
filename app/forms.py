@@ -6,13 +6,13 @@ class TurkForm(Form):
     turk_input = TextAreaField('turk_input', validators=[DataRequired()])
     
 class CreateHITForm(Form):
-	hit_title = StringField('hit_title', validators=[DataRequired()])
-	hit_url = StringField('hit_url', validators=[DataRequired()])
-	hit_instructions = TextAreaField('hit_instructions', validators=[DataRequired()])
-	hit_keywords = TextAreaField('hit_keywords', validators=[DataRequired()]) 
-	hit_bounty = StringField('hit_bounty', validators=[DataRequired()])
-	hit_deadline = StringField('hit_deadline', validators=[DataRequired()])
-	hit_school = StringField('hit_bounty', validators=[DataRequired()])
+	title = StringField('title', validators=[DataRequired()])
+	url = StringField('url', validators=[DataRequired()])
+	instructions = TextAreaField('instructions', validators=[DataRequired()])
+	keywords = TextAreaField('keywords', validators=[DataRequired()]) 
+	bounty = StringField('bounty', validators=[DataRequired()])
+	deadline = StringField('deadline', validators=[DataRequired()])
+	school = StringField('bounty', validators=[DataRequired()])
 
 class EventForm(Form):
 	TIMEZONE_CHOICES = [('',''),('Pacific Standard Time', 'Pacific Standard Time'), ('Mountain Standard Time','Mountain Standard Time'), ('Central Standard Time','Central Standard Time'), ('Eastern Standard Time','Eastern Standard Time')]
