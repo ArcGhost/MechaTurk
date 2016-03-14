@@ -135,7 +135,7 @@ def hit_consignment(id):
 		print "worker id: ", h.worker_id
 		print "assignment id: ", h.assignment_id
 		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
-		return render_template('test.html', 
+		return render_template('task.html', 
 						id = id,
 						hit = h,
 						hit_id = task_id,
@@ -228,5 +228,5 @@ def edit_event(id):
 def test():
 	form = EventForm()
 	hit = models.Hit.query.get(92)
-	return render_template('test.html', form = form, hit= hit, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'], hit_id = hit.id)
+	return render_template('task.html', form = form, hit= hit, external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'], hit_id = hit.id)
 '''

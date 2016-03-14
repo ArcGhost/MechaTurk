@@ -11,73 +11,150 @@
   </head>
 
   <body>
-      <div class="col-md-10">
-        <h3>Greetings and salutations, Turk!</h3>
-        <ul>
-          <li> Firstly, open the following link in a new tab or browser window: {{ hit.url }} </li>
-          <li> {{ hit.instructions }} </li>
-        </ul>
-      </div>
-    
-    {% for event in events %}
-      <div class="col-md-4">
-        <h4 class="bg-primary">EVENT {{ event+1 }}</h4>
-        {% include "single_event.html" %}
-      </div>
-    {% endfor %}
-    <div>
-  </body>
+    <div class="row"></div>
 
-
-
-<!-- {#
-  <body><div class="row">
-    </div>
     <div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-10">
         <h3>Greetings and salutations, Turk!</h3>
-        <p> Firstly, open the following link in a new tab or browser window: {{ hit.url }} </p>
-        <p> {{ hit.instructions }} </p>
-        <form action="{{ external_submit_url }}" method="post" name="">
-            {{ form.hidden_tag() }}
-            <p>{{ form.turk_input(rows=20,cols=100) }}<br>
-            </p>
-            <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
-            <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
-            <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
-            {% if worker_id %} 
-            <input type="submit" class="btn btn-info" value="Submit">
-            {% else %}
-            <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
+          <ul>
+            <li> Firstly, open the following link in a new tab or browser window: <a href="{{hit.url}}">{{hit.url}}</a> </li>
+            <li> For each event listed on that page, please copy down the event information into the form below. </li>
+            <li> Fill in as much information as possible.  If information is unavailable or inapplicable, leave the field blank. </li>
+            <li> When done with the event, you can press the "Log Event" button at the bottom of the form. </li>
+            <li> When done with ALL events, you can press the "Submit Task" button at the bottom of the right column to submit your completed task to Mechanical Turk. The list on the right should contain all of your entered events, and the form on your left should be blank.</li>
+            <li> <b>Be careful not to</b> confuse the <span class="bg-info">"Log Event"</span> button with the <span class="bg-danger">"Submit Task"</span> button, or you might accidentally submit an incomplete task!</li>
+            {% if hit.instructions %}
+            <li> {{ hit.instructions }}</li>
             {% endif %}
+          </ul>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <!--here begins stuff -->
+        <h4 id="eventNumber" class="bg-primary">Event Form </h4>
+        <form action="{{ external_submit_url }}" method="post" name="">
+          {% include "event_form.html" %}
+          <input type="hidden" id="assignmentId" value="{{ assignment_id }}" name="assignmentId"/>
+          <input type="hidden" id="workerId" value="{{ worker_id }}" name="workerId"/>
+          <input type="hidden" id="hitId" value="{{ hit_id }}" name="hitId"/>
+          <input type="hidden" id="eventHit" value="{{ id }}" name="eventHit"/>
+
+          {% if worker_id %}
+            <button id="submitEvent" class="btn btn-info" value="Log Event">Log Event</button>
+            </br></br></br>
+            <input id="submitTask" type="submit" class="btn btn-danger" value="Submit Task">
+          {% else %}
+            <p>You must accept this task through Amazon's Mechanical Turk site to submit work.</p>
+          {% endif %}
+         
+
         </form>
 
-        <script>
-        $(document).ready(function() {
-          $(":submit").click(function(e) {
+
+      </div>
+
+
+      <div class="col-md-5">
+        <h4 id="eventLog" class="bg-primary">0 Logged Event(s): </h4>
+        <div id="logged-events">
+          <table id="eventsTable" class="table table-striped table-hover table-condensed">
+            <tr>
+              <th>#</th>
+              <th>Event Title:</th>
+              <th>Start Date:</th>
+            </tr>
+          </table>
+        </div>
+        </br></br></br>
+      </div>
+
+      <div class="col-md-1"></div>    
+
+    </div>
+  </div>
+  </br></br></br></br></br></br>
+
+    <script>
+      $(document).ready(function() {
+        var numEvents = 0; //need to initialize an indexing variable here
+        var events = []; //our events array, to be sent to Amazon in the end
+        //form needs to be cleared
+        
+        
+        $("#submitEvent").click(function(e) {
+            e.preventDefault(); 
+            console.log('LOG EVENT button clicked'); //sanity test
+            numEvents +=1; // on presses of the submit button, need to increment variable
+            var values = {}; //clear out event info from last submit
+            
+            $.each($(':input').serializeArray(), function(i, field) { //creates json object out of form and puts it in values
+              values[field.name] = field.value;
+            });
+
+            events.push(values); //put into all-events array
+
+            //sanity test stuff
+            console.log('current events:'); 
+            console.log(events); 
+            console.log('num events: ' + numEvents);
+            console.log('most recently logged event:');
+            console.log(values);
+
+
+            $.ajax({ //POST event info to our server
+              url: '/logevent',
+              type: 'POST',
+              data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
+              contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect
+              success: function(result) { 
+                  console.log('POST request sent'); //another sanity test
+                  //console.log(result)
+                  result = "<tr><td>" + numEvents.toString() + "</td>" + result //put number ahead of 
+                  $('#eventsTable tr:last').after(result) //insert response here
+              } 
+            });
+
+            $("#form").find('input:text, input:password, input:file, select, textarea').val(''); //reset all entered text
+            $("#form").find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected'); //reset all radio buttons and drop-down selects
+            $('html, body').animate({ scrollTop: 0 }, 'fast'); //jump to top of page
+            $("#eventNumber").text("Event Form #" + (numEvents+1)); //increment form header
+            $("#eventLog").text(numEvents + " Logged Event(s):"); //increment log header
+
+            
+            $("#submitTask").click(function(e) {
               e.preventDefault();
               // submit to our server 
-              //console.log('First, the data is posted to OUR server.');
               $.ajax({
                   url: '/consignment/{{id}}',
                   type: 'POST',
-                  data: $('form').serialize(),
-                  success: function(result) { 
-                      //console.log('Then, the data is posted to AWS server.');
-                      $('form').submit();// submit to mechanical turk via the external_submit_url on the html template
+                  data: '',
+                  success: function(result) {
+                    console.log('First, the data is posted to OUR server.'); 
+                    $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
+                    console.log('Then, the data is posted to AWS server.');
                   }
               });
           });
-        });  
-        </script>
-      </div>
-    <div class="col-md-1"></div>
-  </div>
-  </body>
-#}-->
 
+
+        });
+      });  
+    </script>
+
+
+
+  </body>
 
 
 
 </html>
+
+
+
