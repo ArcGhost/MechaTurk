@@ -63,9 +63,16 @@ class Hit(db.Model):
 	# turk_input = db.Column(db.Text()) #resultant work of the Turk
 	events = db.relationship('Event', backref='hit', lazy='dynamic')
 
+
+	def columns(self):
+		#Return the actual columns of a SQLAlchemy-mapped object
+		return [prop.key for prop in class_mapper(self.__class__).iterate_properties if isinstance(prop, ColumnProperty)]
+
 	def __repr__(self):
-		return 'ID: %r - %r \n Created at: %r \n Deadline: %r \n HIT #: %r \n status: %r \n link: %r \n bounty: %r \n school: %r\n\n Events: \n %r \n\n\n' % \
-		(self.id, self.title, self.created_at, self.deadline, self.hit_id, self.status, self.url, self.bounty, self.school, self.events)
+		summary = ''
+		for column in self.columns():
+			summary = summary + str(column) + ':  ' + '%r \n' % (getattr(self, column))
+		return summary
 
 
 
