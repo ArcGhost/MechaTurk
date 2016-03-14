@@ -126,9 +126,9 @@ def hit_consignment(id):
 	events = range(2)
 	if request.method == 'GET':
 		#get the following variables from Amazon when the GET request originates from there
-		if request.args.get("workerId") != 'ASSIGNMENT_ID_NOT_AVAILABLE':
+		if request.args.get("workerId"): #prevent overwrite on late viewings via AWS
 			h.worker_id = request.args.get("workerId")
-		if request.args.get("assignmentId"):
+		if request.args.get("assignmentId") != 'ASSIGNMENT_ID_NOT_AVAILABLE': #prevent overwrite on late viewings via AWS
 			h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
 		print "worker id: ", h.worker_id
