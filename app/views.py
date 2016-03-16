@@ -145,6 +145,7 @@ def hit_consignment(id):
 						assignment_id = h.assignment_id,
 						external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
 						events = events,
+						maps_key = os.environ['GOOGLE_PLACES_DEV_KEY'],
 						form=form)
 	if request.method == 'POST':
 		h.status = 'reviewable'
@@ -206,7 +207,11 @@ def edit_event(id):
 	form = EventForm()
 	if request.method == 'GET':
 		form = EventForm(obj=e)
-		return render_template('edit_event.html', form = form, event = e, hit_id = hit_id )
+		return render_template('edit_event.html', 
+			form = form, 
+			event = e, 
+			hit_id = hit_id, 
+			maps_key = os.environ['GOOGLE_PLACES_DEV_KEY'] )
 	if request.method == 'POST':
 		for fieldname, value in form.data.items():
 			setattr(e, fieldname, value)
