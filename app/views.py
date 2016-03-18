@@ -141,7 +141,7 @@ def hit_consignment(id):
 						hit_id = task_id,
 						provided_link= h.url,
 						provided_description= h.title,
-						worker_id = h.worker_id,
+						worker_id = request.args.get("workerId"), #kept this way to keep non-workers from logging events
 						assignment_id = h.assignment_id,
 						external_submit_url = os.environ['EXTERNAL_SUBMIT_SANDBOX_URL'],
 						events = events,
