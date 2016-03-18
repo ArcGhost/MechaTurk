@@ -82,9 +82,12 @@
   </br></br></br></br></br></br>
 
     <script>
+    
+      var numEvents = 0; //need to initialize an indexing variable here
+      var events = []; //our events array, to be sent to Amazon in the end
+
       $(document).ready(function() {
-        var numEvents = 0; //need to initialize an indexing variable here
-        var events = []; //our events array, to be sent to Amazon in the end
+        
         
         $("#submitEvent").click(function(e) {
             e.preventDefault(); 
@@ -141,8 +144,21 @@
               success: function(result) {
                 console.log('First, the data is posted to OUR server.'); 
                 console.log(events);
-                $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
-                console.log('Then, the data is posted to AWS server.');
+                
+                var postData = $('form').serialize() + events.serializeArray();
+                $.ajax({
+                  url: '{{ external_submit_url }}', 
+                  type: 'POST', 
+                  data: postData, 
+                  success: function(result) {
+                    console.log('attemping to post all data to amazon'); 
+                    console.log(postData);
+                  }
+                });
+
+
+                //$('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
+                //console.log('Then, the data is posted to AWS server.');
               }
           });
         });
