@@ -82,7 +82,7 @@
   </br></br></br></br></br></br>
 
     <script>
-    
+
       var numEvents = 0; //need to initialize an indexing variable here
       var events = []; //our events array, to be sent to Amazon in the end
 
@@ -145,14 +145,14 @@
                 console.log('First, the data is posted to OUR server.'); 
                 console.log(events);
                 
-                var postData = $('form').serialize() + events.serializeArray();
+                var postData = { data: events };
                 $.ajax({
                   url: '{{ external_submit_url }}', 
                   type: 'POST', 
-                  data: postData, 
+                  data: $.param(postData), 
                   success: function(result) {
                     console.log('attemping to post all data to amazon'); 
-                    console.log(postData);
+                    console.log($.param(postData));
                   }
                 });
 
