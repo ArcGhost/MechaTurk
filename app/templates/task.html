@@ -140,6 +140,7 @@
               data: '',
               success: function(result) {
                 console.log('First, the data is posted to OUR server.'); 
+                console.log(events);
                 $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
                 console.log('Then, the data is posted to AWS server.');
               }
