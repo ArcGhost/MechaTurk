@@ -1,17 +1,4 @@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ maps_key }}&libraries=places">
-</script>
-    
-<script type="text/javascript" src="/static/jquery.timepicker.min.js"></script> 
-<link rel="stylesheet" type="text/css" href="/static/jquery.timepicker.min.css">
 
-<script type="text/javascript" src="/static/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/jquery-ui.min.css">
-
-<script>
-  $(function() {
-    $( ".dateField" ).datepicker();
-  });
-</script>
 
 <div id="form">
   {{ form.hidden_tag() }}
@@ -114,14 +101,18 @@
 </div>
 
 <script>
+  $(function() {
+    $( ".dateField" ).datepicker();
+    $('.timeField').timepicker();
+  });
+</script>
+
+<script>
   function initialize() {
     var input = document.getElementById('locationField');
     var autocomplete = new google.maps.places.Autocomplete(input);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-
-    $('.timeField').timepicker();
-
 </script>
 
 </br></br>

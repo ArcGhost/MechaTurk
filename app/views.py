@@ -26,6 +26,11 @@ def before_request():
 def inject_acct_bal():
 	return dict(acct_bal=g.acct_bal) 
 
+@app.context_processor #this function, decorated with context_processor, will run before the templating code, making g.acct_bal available to all views
+def inject_maps_key():
+	return dict(maps_key=os.environ['GOOGLE_PLACES_DEV_KEY']) 
+
+
 
 @app.route('/', methods=["GET", "POST"]) #signin page
 @app.route('/index', methods=["GET", "POST"])
