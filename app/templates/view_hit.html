@@ -13,6 +13,7 @@
     <h4>Days to Complete: {{ hit.deadline }}</h4>
     <h4>Keywords: {{ hit.keywords }}</h4>
     <h4
+      {% if hit.status == 'in progress' %}class="text-warning"{% endif %} 
       {% if hit.status == 'reviewable' %}class="text-warning"{% endif %} 
       {% if hit.status == 'approved' %}class="text-success"{% endif %} 
       {% if hit.status == 'rejected' %}class="text-danger"{% endif %}

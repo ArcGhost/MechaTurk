@@ -81,94 +81,91 @@
   </div>
   </br></br></br></br></br></br>
 
-    <script>
+  <script>
 
-      var numEvents = 0; //need to initialize an indexing variable here
-      var events = []; //our events array, to be sent to Amazon in the end
+    var numEvents = 0; //need to initialize an indexing variable here
+    var events = []; //our events array, to be sent to Amazon in the end
 
-      $(document).ready(function() {
-        
-        
-        $("#submitEvent").click(function(e) {
-            e.preventDefault(); 
-            console.log('LOG EVENT button clicked'); //sanity test
-            numEvents +=1; // on presses of the submit button, need to increment variable
-            var values = {}; //clear out event info from last submit
-            
-            //create json object out of form and puts it in values
-            //put into all-events array
-            $.each($(':input').serializeArray(), function(i, field) { 
-              values[field.name] = field.value;
-            });
-            events.push(values); 
-
-            //sanity test stuff
-            console.log('all logged events:'); 
-            console.log(events); 
-            console.log('num events: ' + numEvents);
-            console.log('most recently logged event:');
-            console.log(values);
-
-            //POST event info to our server
-            $.ajax({ 
-              url: '/logevent',
-              type: 'POST',
-              data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
-              contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect
-              success: function(result) { 
-                  console.log('POST request sent'); //another sanity test
-                  result = "<tr><td>" + numEvents.toString() + "</td>" + result //put number ahead of 
-                  $('#eventsTable tr:last').after(result) //insert response here
-              } 
-            });
-
-            //reset forms and alter column headers
-            //reset all entered text
-            $("#form").find('input:text, input:password, input:file, select, textarea').val(''); 
-            //reset all radio buttons and drop-down selects
-            $("#form").find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected'); 
-            $('html, body').animate({ scrollTop: 0 }, 'fast'); //jump to top of page
-            $("#eventNumber").text("Event Form #" + (numEvents+1)); //increment form header
-            $("#eventLog").text(numEvents + " Logged Event(s):"); //increment log header
-        }); //end submit event
-
-
-
-        $("#submitTask").click(function(e) {
-          e.preventDefault();
-          // submit to our server 
-          $.ajax({
-              url: '/consignment/{{id}}',
-              type: 'POST',
-              data: '',
-              success: function(result) {
-                console.log('First, the data is posted to OUR server.'); 
-                console.log(events);
-                
-                /*
-                var postData = { data: events };
-                $.ajax({
-                  url: '{{ external_submit_url }}', 
-                  type: 'POST', 
-                  data: $.param(postData), 
-                  success: function(result) {
-                    console.log('attemping to post all data to amazon'); 
-                    console.log($.param(postData));
-                  }
-                });
-                */
-                
-                $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
-                //console.log('Then, the data is posted to AWS server.');
-              }
+    $(document).ready(function() {
+      
+      
+      $("#submitEvent").click(function(e) {
+          e.preventDefault(); 
+          console.log('LOG EVENT button clicked'); //sanity test
+          numEvents +=1; // on presses of the submit button, need to increment variable
+          var values = {}; //clear out event info from last submit
+          
+          //create json object out of form and puts it in values
+          //put into all-events array
+          $.each($(':input').serializeArray(), function(i, field) { 
+            values[field.name] = field.value;
           });
+          events.push(values); 
+
+          //sanity test stuff
+          console.log('all logged events:'); 
+          console.log(events); 
+          console.log('num events: ' + numEvents);
+          console.log('most recently logged event:');
+          console.log(values);
+
+          //POST event info to our server
+          $.ajax({ 
+            url: '/logevent',
+            type: 'POST',
+            data: JSON.stringify(values), //don't know why it's needed, but it's needed to avoid http400
+            contentType: 'application/json; charset=UTF-8', //tell recipient what kind of data to expect
+            success: function(result) { 
+                console.log('POST request sent'); //another sanity test
+                result = "<tr><td>" + numEvents.toString() + "</td>" + result //put number ahead of 
+                $('#eventsTable tr:last').after(result) //insert response here
+            } 
+          });
+
+          //reset forms and alter column headers
+          //reset all entered text
+          $("#form").find('input:text, input:password, input:file, select, textarea').val(''); 
+          //reset all radio buttons and drop-down selects
+          $("#form").find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected'); 
+          $('html, body').animate({ scrollTop: 0 }, 'fast'); //jump to top of page
+          $("#eventNumber").text("Event Form #" + (numEvents+1)); //increment form header
+          $("#eventLog").text(numEvents + " Logged Event(s):"); //increment log header
+      }); //end submit event
+
+
+
+      $("#submitTask").click(function(e) {
+        e.preventDefault();
+        // submit to our server 
+        $.ajax({
+            url: '/consignment/{{id}}',
+            type: 'POST',
+            data: '',
+            success: function(result) {
+              console.log('First, the data is posted to OUR server.'); 
+              console.log(events);
+              
+              /*
+              var postData = { data: events };
+              $.ajax({
+                url: '{{ external_submit_url }}', 
+                type: 'POST', 
+                data: $.param(postData), 
+                success: function(result) {
+                  console.log('attemping to post all data to amazon'); 
+                  console.log($.param(postData));
+                }
+              });
+              */
+
+              $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
+              //console.log('Then, the data is posted to AWS server.');
+            }
         });
-
-
-
       });
+    });
 
-    </script>
+  </script>
 
 
 
