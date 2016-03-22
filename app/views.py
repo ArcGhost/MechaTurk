@@ -116,8 +116,6 @@ def createHIT():
 		#then need to return a URL, title, keywords, bounty, used to create the HIT in Amazon
 		#create_task(id, title, description, keywords, deadline, bounty)
 		AWS_id = create_task(h.id, h.title, h.instructions, h.keywords.split(','), h.deadline, h.bounty)
-
-
 		#then need to update our DB with the task-ID as assigned by Amazon
 		h.hit_id = AWS_id
 		db.session.commit()
@@ -200,8 +198,8 @@ def logevent():
 	e.hit_id = eventData['eventHit']
 	db.session.add(e)
 	db.session.commit()
-	response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['start_date'] + "</td></tr>"
-	return response_html
+	#response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['start_date'] + "</td></tr>"
+	return render_template('event_form.html', form = EventForm())
 
 
 @app.route('/event/edit/<id>', methods=['GET', 'POST'])

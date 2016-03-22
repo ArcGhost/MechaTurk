@@ -1,6 +1,6 @@
 
 
-<div id="form">
+<div id="form-0">
   {{ form.hidden_tag() }}
 
     <div class="form-group">
@@ -101,12 +101,27 @@
 </div>
 
 <script>
-  $(function() {
-    $( ".dateField" ).datepicker();
-    $('.timeField').timepicker();
+//this will allow for dynamic loading of the time-picker, date-picker, and places auto-complete functions, even when the form is loaded via ajax (not just on the first page load)
+  $(function(){
+
+      $("body").on('focus', ".dateField", function(){
+        $(this).datepicker();
+      });
+
+      $("body").on('focus', ".timeField", function(){
+        $(this).timepicker();
+      });      
+
+      $("body").on('focus', "#locationField", function(){
+          var input = document.getElementById('locationField');
+          var autocomplete = new google.maps.places.Autocomplete(input);
+      });
+
   });
 </script>
 
+
+{#
 <script>
   function initialize() {
     var input = document.getElementById('locationField');
@@ -114,5 +129,8 @@
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+#}
+
+
 
 </br></br>
