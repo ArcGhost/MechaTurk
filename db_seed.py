@@ -29,9 +29,9 @@ dt2 = datetime.datetime.now() - datetime.timedelta(3)
 dt3 = datetime.datetime.now() - datetime.timedelta(1)
 
 hit_seeds = [
-	{'hit_id': '1234567890', 'title': 'UCLA 2016 Football Schedule', 'worker_id':'', 'bounty':'4.50', 'url': 'http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php', 'status':'open', 'created_at': dt1, 'school':'UCLA', 'deadline':3, 'keywords':'Tassl, alumni, UCLA', 'instructions':'Enter all event info relating to 2016 season.' },
-	{'hit_id': '2345678901', 'title': 'Rowan 2016 Baseball Schedule', 'bounty':'7.50', 'worker_id':'ABCDEFGHIJKL','url': 'http://www.rowanathletics.com/schedule.aspx?path=baseball', 'status':'reviewable', 'created_at': dt2, 'school':'Rowan', 'deadline':2, 'keywords':'Tassl, alumni, snakes, data collection', 'instructions':'Enter all event info relating to the RussMatt Central Florida Invitational'},
-	{'hit_id': '3456789012', 'title': 'Cornell 2015 Basketball Schedule', 'bounty':'6.50', 'worker_id':'BCDEFGHIJKLM','url': 'http://www.cornellbigred.com/schedule.aspx?path=mbball', 'status':'approved', 'created_at': dt3, 'school':'Cornell', 'deadline':1, 'keywords':'Tassl, alumni, planes, data collection', 'instructions':'Enter all event info relating to the 2015 season.'}
+	{'hit_id': '1234567890', 'title': 'UCLA 2016 Football Schedule', 'worker_id':'', 'bounty':'4.50', 'url': 'http://www.fbschedules.com/ncaa-16/2016-ucla-bruins-football-schedule.php', 'status':'open', 'created_at': dt1, 'school':319, 'deadline':3, 'keywords':'Tassl, alumni, UCLA', 'instructions':'Enter all event info relating to 2016 season.' },
+	{'hit_id': '2345678901', 'title': 'Rowan 2016 Baseball Schedule', 'bounty':'7.50', 'worker_id':'ABCDEFGHIJKL','url': 'http://www.rowanathletics.com/schedule.aspx?path=baseball', 'status':'reviewable', 'created_at': dt2, 'school':324, 'deadline':2, 'keywords':'Tassl, alumni, snakes, data collection', 'instructions':'Enter all event info relating to the RussMatt Central Florida Invitational'},
+	{'hit_id': '3456789012', 'title': 'Cornell 2015 Basketball Schedule', 'bounty':'6.50', 'worker_id':'BCDEFGHIJKLM','url': 'http://www.cornellbigred.com/schedule.aspx?path=mbball', 'status':'approved', 'created_at': dt3, 'school':234, 'deadline':1, 'keywords':'Tassl, alumni, planes, data collection', 'instructions':'Enter all event info relating to the 2015 season.'}
 	]
 
 for x in hit_seeds:

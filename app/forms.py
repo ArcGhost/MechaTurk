@@ -12,7 +12,8 @@ class CreateHITForm(Form):
 	keywords = TextAreaField('keywords', validators=[DataRequired()]) 
 	bounty = StringField('bounty', validators=[DataRequired()])
 	deadline = StringField('deadline', validators=[DataRequired()])
-	school = StringField('bounty', validators=[DataRequired()])
+	school = SelectField(label='school', coerce=int, validators=[DataRequired()])
+
 
 class EventForm(Form):
 	TIMEZONE_CHOICES = [('',''),('Pacific Standard Time', 'Pacific Standard Time'), ('Mountain Standard Time','Mountain Standard Time'), ('Central Standard Time','Central Standard Time'), ('Eastern Standard Time','Eastern Standard Time')]

@@ -1,13 +1,13 @@
 from flask import render_template, flash, redirect, request, g, url_for
+import datetime, json, requests
 from app import app, db, models
 from .create_HIT import create_task, mturk
 from sqlalchemy import desc
 from .forms import TurkForm, CreateHITForm, UsernamePasswordForm, FeedbackForm, EventForm
+from wtforms import StringField, TextAreaField, TextField, PasswordField, SelectField
 from .models import Hit, User
 import os, boto.mturk.connection, boto.mturk.question
 from flask.ext.login import login_user, logout_user, current_user, login_required, LoginManager
-import datetime, json
-
 
 @app.template_filter('days_ago') #this will make a function available to templates
 def days_ago(t=datetime.timedelta(0)):
@@ -26,10 +26,21 @@ def before_request():
 def inject_acct_bal():
 	return dict(acct_bal=g.acct_bal) 
 
-@app.context_processor #this function, decorated with context_processor, will run before the templating code, making g.acct_bal available to all views
+@app.context_processor 
 def inject_maps_key():
 	return dict(maps_key=os.environ['GOOGLE_PLACES_DEV_KEY']) 
 
+@app.before_request #make list of schools something accessible to all view-code
+def fetch_schools():
+	SCHOOL_CHOICES = []
+	schools = {}
+	r = requests.get('https://api.tasslapp.com/v1/schools')
+	if r.status_code == 200:
+		for x in r.json():
+	 		SCHOOL_CHOICES.append((x['id'], x['name']))
+	 		schools[x['id']] = x['name']
+	g.SCHOOL_CHOICES = SCHOOL_CHOICES
+	g.schools = schools
 
 
 @app.route('/', methods=["GET", "POST"]) #signin page
@@ -65,12 +76,14 @@ def all_hits():
 def view_hit(id):
 	h = models.Hit.query.get(id)
 	form = FeedbackForm()
+	school = g.schools[h.school] #get school name from school id stored in HIT
 	events = h.events.all()
 	events = sorted(events, key = lambda x:x.id) #sort by id
 	#print events
 	return render_template('view_hit.html', 
 						hit = h,
-						events = events, 
+						events = events,
+						school = school, 
 						form = form)
 
 
@@ -99,7 +112,9 @@ def approve_or_reject(id, judgement):
 def createHIT():
 	form = CreateHITForm()
 	if request.method == 'GET':
+		form.school.choices = g.SCHOOL_CHOICES
 		return render_template('create_HIT.html', form=form)
+	
 	if request.method == 'POST':
 		h = models.Hit() #need to create with our DB first
 		h.title = form.title.data
@@ -166,6 +181,7 @@ def recreateHIT(id):
 	form = CreateHITForm()
 	if request.method == 'GET': #populate with existing data
 		form = CreateHITForm(obj=h)
+		form.school.choices = g.SCHOOL_CHOICES
 		return render_template('create_HIT.html', form=form)
 	if request.method == 'POST':
 		q = models.Hit() #need to create a new model with our DB first

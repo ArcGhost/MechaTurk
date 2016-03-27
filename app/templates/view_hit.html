@@ -5,7 +5,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     <h2><a href="{{ hit.url }}">{{ hit.title }}</a></h2>
-    <h4>School: {{hit.school.upper()}} </h4>
+    <h4>School: {{ school}} </h4>
     <h4>AWS HIT ID: {{hit.hit_id}}</h4>
     <h4>Created: {{ hit.created_at | days_ago }} day(s) ago</h4>
     <h4>Worker ID: {% if hit.worker_id %}{{hit.worker_id}}{% else %}N/A{% endif %}</h4>

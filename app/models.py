@@ -56,7 +56,7 @@ class Hit(db.Model):
 	created_at = db.Column(db.DateTime) #to track staleness
 	keywords = db.Column(db.Text()) #given by Tassl employee
 	deadline = db.Column(db.Integer) #given by Tassl employee, days to complete assignment
-	school = db.Column(db.String(128)) #given by Tassl employee
+	school = db.Column(db.Integer) #given by Tassl employee
 	# the following are what we want to track
 	# turk_input = db.Column(db.Text()) #resultant work of the Turk
 	events = db.relationship('Event', backref='hit', lazy='dynamic')
@@ -84,7 +84,7 @@ class User(db.Model):
 	@hybrid_property
 	def password(self):
 		return self._password
-		
+
 	@password.setter
 	def _set_password(self, plaintext):
 		self._password = bcrypt.generate_password_hash(plaintext)
