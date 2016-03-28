@@ -28,6 +28,7 @@ class Event(db.Model):
 	registration_req = db.Column(db.String(16))
 	registration_url = db.Column(db.Text())
 	event_page_url = db.Column(db.Text())
+	google_location_id = db.Column(db.String(128))
 	hit_id = db.Column(db.Integer, db.ForeignKey('hit.id')) #belongs to HIT
 
 	def columns(self):

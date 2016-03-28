@@ -98,6 +98,9 @@
       {{ form.event_page_url(size=50, class="form-control", placeholder="https://alumni.ucla.edu/event/bruin-professionals-long-beach-chapter-monthly-meeting/ ") }}
     </div>
 
+    <input type="hidden" id="google_location_id" name="google_location_id"/> 
+
+
 </div>
 
 <script>
@@ -113,9 +116,20 @@
       });      
 
       $("body").on('focus', "#locationField", function(){
+
+          function updatedaddress() {
+            var place = autocomplete.getPlace();
+            $('#google_location_id').val(place.place_id);
+          }
+
           var input = document.getElementById('locationField');
           var autocomplete = new google.maps.places.Autocomplete(input);
+          google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          updatedaddress();})
+    
       });
+
+      
 
   });
 </script>
