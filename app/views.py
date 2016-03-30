@@ -234,6 +234,7 @@ def edit_event(id):
 	if request.method == 'POST':
 		for fieldname, value in form.data.items():
 			setattr(e, fieldname, value)
+			#print fieldname, value
 		# print e #sanity test
 		db.session.commit()
 		dest = '/hits/' + str(hit_id)

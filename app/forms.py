@@ -1,6 +1,8 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, TextField, PasswordField, SelectField
+from wtforms import StringField, TextAreaField, TextField, PasswordField, SelectField, HiddenField
 from wtforms.validators import DataRequired
+from wtforms_components import SelectField, SelectMultipleField
+import wtforms_components
 
 class TurkForm(Form):
     turk_input = TextAreaField('turk_input', validators=[DataRequired()])
@@ -38,6 +40,7 @@ class EventForm(Form):
 	registration_req = SelectField(label='registration_req', choices=YES_NO)
 	registration_url = StringField('registration_url')
 	event_page_url = StringField('event_page_url')	
+	google_location_id = HiddenField(id="google_location_id")
 
 
 

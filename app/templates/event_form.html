@@ -117,15 +117,19 @@
 
       $("body").on('focus', "#locationField", function(){
 
-          function updatedaddress() {
+          function updateGoogleLocationID() {
             var place = autocomplete.getPlace();
+            console.log(place);
             $('#google_location_id').val(place.place_id);
+            console.log($('#google_location_id').val())
           }
 
           var input = document.getElementById('locationField');
           var autocomplete = new google.maps.places.Autocomplete(input);
           google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          updatedaddress();})
+            updateGoogleLocationID();
+            console.log('google location should be updated');
+          })
     
       });
 
