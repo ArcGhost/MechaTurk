@@ -10,7 +10,7 @@ import sqlalchemy
 class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True) #assigned by us
 	event_name = db.Column(db.String(128))
-	event_type = db.Column(db.String(128))
+	event_type = db.Column(db.Integer)
 	host_name = db.Column(db.String(128))
 	on_campus = db.Column(db.String(16))
 	virtual = db.Column(db.String(16))

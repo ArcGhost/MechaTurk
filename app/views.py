@@ -8,19 +8,19 @@ from wtforms import StringField, TextAreaField, TextField, PasswordField, Select
 from .models import Hit, User
 import os, boto.mturk.connection, boto.mturk.question
 from flask.ext.login import login_user, logout_user, current_user, login_required, LoginManager
+from TCdata import get_host_choices, get_school_choices, get_event_types
+
 
 @app.template_filter('days_ago') #this will make a function available to templates
 def days_ago(t=datetime.timedelta(0)):
 	diff = (datetime.datetime.now() - t)
 	return diff.days
 
-
 @app.before_request # functions decorated with before_request run before the view function when request is received
 def before_request():
 	g.user = current_user #g global is setup by Flask to store and share data during the life of a request
 	#current_user global is set by Flask-Login; we put a copy in the g object so that all requests have access to the logged-in user, even inside templates
 	g.acct_bal = mturk.get_account_balance() #get up-to-date balances
-
 
 @app.context_processor #this function, decorated with context_processor, will run before the templating code, making g.acct_bal available to all views
 def inject_acct_bal():
@@ -30,17 +30,6 @@ def inject_acct_bal():
 def inject_maps_key():
 	return dict(maps_key=os.environ['GOOGLE_PLACES_DEV_KEY']) 
 
-@app.before_request #make list of schools something accessible to all view-code
-def fetch_schools():
-	SCHOOL_CHOICES = []
-	schools = {}
-	r = requests.get('https://api.tasslapp.com/v1/schools')
-	if r.status_code == 200:
-		for x in r.json():
-	 		SCHOOL_CHOICES.append((x['id'], x['name']))
-	 		schools[x['id']] = x['name']
-	g.SCHOOL_CHOICES = SCHOOL_CHOICES
-	g.schools = schools
 
 
 @app.route('/', methods=["GET", "POST"]) #signin page
@@ -76,14 +65,21 @@ def all_hits():
 def view_hit(id):
 	h = models.Hit.query.get(id)
 	form = FeedbackForm()
-	school = g.schools[h.school] #get school name from school id stored in HIT
+	x, schools_dict = get_school_choices() #get school name from school id stored in HIT
+	school = schools_dict[h.school] #needed for proper display of school (name instead of id)
+	y, hosts_dict = get_host_choices(h.school) #needed for proper display of host (name instead of id)
+	z, event_type_dict = get_event_types() #needed for proper display of event type (name instead of id)
 	events = h.events.all()
 	events = sorted(events, key = lambda x:x.id) #sort by id
-	#print events
+	print event_type_dict
+	print events
 	return render_template('view_hit.html', 
 						hit = h,
 						events = events,
 						school = school, 
+						hosts_dict = hosts_dict,
+						schools_dict = schools_dict,
+						event_type_dict = event_type_dict,
 						form = form)
 
 
@@ -112,7 +108,7 @@ def approve_or_reject(id, judgement):
 def createHIT():
 	form = CreateHITForm()
 	if request.method == 'GET':
-		form.school.choices = g.SCHOOL_CHOICES
+		form.school.choices, x = get_school_choices()
 		return render_template('create_HIT.html', form=form)
 	
 	if request.method == 'POST':
@@ -150,9 +146,11 @@ def hit_consignment(id):
 		if request.args.get("assignmentId") != 'ASSIGNMENT_ID_NOT_AVAILABLE': #prevent overwrite on GET via AWS by Tassl Employee
 			h.assignment_id = request.args.get("assignmentId")
 		db.session.commit()
-		print "worker id: ", h.worker_id
-		print "assignment id: ", h.assignment_id
+		#print "worker id: ", h.worker_id
+		#print "assignment id: ", h.assignment_id
 		task_id = request.args.get("hitId") #get hitID, as assigned by amazon
+		form.host_name.choices, x = get_host_choices(h.school) #dynamically set hosts
+		form.event_type.choices, x = get_event_types()
 		return render_template('task.html', 
 						id = id,
 						hit = h,
@@ -181,7 +179,7 @@ def recreateHIT(id):
 	form = CreateHITForm()
 	if request.method == 'GET': #populate with existing data
 		form = CreateHITForm(obj=h)
-		form.school.choices = g.SCHOOL_CHOICES
+		form.school.choices, x = get_school_choices()
 		return render_template('create_HIT.html', form=form)
 	if request.method == 'POST':
 		q = models.Hit() #need to create a new model with our DB first
@@ -214,8 +212,13 @@ def logevent():
 	e.hit_id = eventData['eventHit']
 	db.session.add(e)
 	db.session.commit()
+	#need to get host choices on new form
+	school_id = e.hit.school
+	form = EventForm()
+	form.event_type.choices, x = get_event_types()
+	form.host_name.choices, x = get_host_choices(school_id)
 	#response_html = "<td>" + eventData['event_name'] + "</td><td>" + eventData['start_date'] + "</td></tr>"
-	return render_template('event_form.html', form = EventForm())
+	return render_template('event_form.html', form = form)
 
 
 @app.route('/event/edit/<id>', methods=['GET', 'POST'])
@@ -226,6 +229,8 @@ def edit_event(id):
 	form = EventForm()
 	if request.method == 'GET':
 		form = EventForm(obj=e)
+		form.host_name.choices, x = get_host_choices(e.hit.school) #populate select field dynamically
+		form.event_type.choices, y = get_event_types()
 		return render_template('edit_event.html', 
 			form = form, 
 			event = e, 

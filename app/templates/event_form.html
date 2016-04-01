@@ -1,5 +1,4 @@
 
-
 <div id="form-0">
   {{ form.hidden_tag() }}
 
@@ -9,8 +8,8 @@
     </div> 
 
     <div class="form-group">
-      <label for="host_name">Host for this event:</label>
-      {{ form.host_name(size=20, class="form-control", placeholder="e.g. UCLA Physics Dept.") }}
+      <label for="host_name">Host for this event:</label></br>
+      {{ form.host_name }}
     </div>
 
     <div class="form-group">
@@ -69,18 +68,18 @@
     </div>
 
     <div class="form-group">
-      <label for="general_pricing">General Pricing (if applicable):</label>
-      {{ form.general_pricing(size=10, class="form-control", placeholder="e.g. \"free, $5.00, etc...\" ") }}
+      <label for="general_pricing">General Pricing, if applicable (do not include $-sign):</label>
+      {{ form.general_pricing(size=10, class="form-control", placeholder="e.g. \"free, 5.00, etc...\" ") }}
     </div>
 
     <div class="form-group">
-      <label for="member_pricing">Member Pricing (if applicable):</label>
-      {{ form.member_pricing(size=10, class="form-control", placeholder="e.g. $5.00") }}
+      <label for="member_pricing">Member Pricing, if applicable (do not include $-sign):</label>
+      {{ form.member_pricing(size=10, class="form-control", placeholder="e.g. 4.00") }}
     </div>
 
     <div class="form-group">
-      <label for="non_member_pricing">Non-member Pricing (if applicable):</label>
-      {{ form.non_member_pricing(size=10, class="form-control", placeholder="e.g. $10.00") }}
+      <label for="non_member_pricing">Non-member Pricing, if applicable (do not include $-sign):</label>
+      {{ form.non_member_pricing(size=10, class="form-control", placeholder="e.g. 10.00") }}
     </div>
 
     <div class="form-group">
@@ -98,7 +97,7 @@
       {{ form.event_page_url(size=50, class="form-control", placeholder="https://alumni.ucla.edu/event/bruin-professionals-long-beach-chapter-monthly-meeting/ ") }}
     </div>
 
-    <input type="hidden" id="google_location_id" name="google_location_id"/> 
+    <input type="hidden" id="google_location_id" name="google_location_id"/>
 
 
 </div>
@@ -108,20 +107,23 @@
   $(function(){
 
       $("body").on('focus', ".dateField", function(){
-        $(this).datepicker();
+        $(this).datepicker({dateFormat: "yy-mm-dd"});
       });
 
       $("body").on('focus', ".timeField", function(){
-        $(this).timepicker();
+        $(this).timepicker({ timeFormat: 'HH:mm' });
       });      
 
       $("body").on('focus', "#locationField", function(){
 
           function updateGoogleLocationID() {
             var place = autocomplete.getPlace();
-            console.log(place);
+            //console.log('autocomplete updated to:');
+            //console.log(place);
             $('#google_location_id').val(place.place_id);
+            console.log('google location id should be updated to: ');
             console.log($('#google_location_id').val())
+
           }
 
           var input = document.getElementById('locationField');
@@ -129,13 +131,13 @@
           google.maps.event.addListener(autocomplete, 'place_changed', function() {
             updateGoogleLocationID();
             console.log('google location should be updated');
-          })
+          });
     
       });
 
-      
 
-  });
+});      
+
 </script>
 
 

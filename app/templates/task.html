@@ -19,6 +19,10 @@
     <script type="text/javascript" src="/static/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/jquery-ui.min.css">
 
+    <script type="text/javascript" src="/static/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/chosen.proto.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/chosen.min.css">
+
   </head>
 
   <body>
@@ -122,16 +126,19 @@
           //create json object out of old-form (need to add event's associated HIT id, too)
           $.each($('#'+oldFormId).find(':input').add('#eventHit').serializeArray(), function(i, field) { 
             values[field.name] = field.value;
+            console.log(field.name +' = '+ field.value);
           });
           //put into all-events array
           events.push(values); 
-
+          
+          /*
           //sanity test stuff
           console.log('all logged events:'); 
           console.log(events); 
           console.log('num events: ' + numEvents);
           console.log('most recently logged event:');
           console.log(values);
+          */
 
           //POST event info to our server
           $.ajax({ 
@@ -157,6 +164,7 @@
 
                 //remove locationField id from old form, so it's renewed on the new form
                 $('div#'+oldFormId).find('#locationField').removeAttr('id');
+                $('div#'+oldFormId).find('#google_location_id').removeAttr('id');
                 //hide old form
                 $('div#'+oldFormId).hide();
                 //prepend new form
@@ -189,19 +197,6 @@
             success: function(result) {
               console.log('First, the data is posted to OUR server.'); 
               console.log(events);
-              
-              /*
-              var postData = { data: events };
-              $.ajax({
-                url: '{{ external_submit_url }}', 
-                type: 'POST', 
-                data: $.param(postData), 
-                success: function(result) {
-                  console.log('attemping to post all data to amazon'); 
-                  console.log($.param(postData));
-                }
-              });
-              */
 
               $('form').submit();// submit to mechanical turk via the external_submit_url on the html template.  Only the last event is sent.
               //console.log('Then, the data is posted to AWS server.');

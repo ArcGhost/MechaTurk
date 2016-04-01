@@ -18,12 +18,11 @@ class CreateHITForm(Form):
 
 
 class EventForm(Form):
-	TIMEZONE_CHOICES = [('',''),('Pacific Standard Time', 'Pacific Standard Time'), ('Mountain Standard Time','Mountain Standard Time'), ('Central Standard Time','Central Standard Time'), ('Eastern Standard Time','Eastern Standard Time')]
+	TIMEZONE_CHOICES = [('',''),('Pacific', 'Pacific'), ('Mountain ','Mountain '), ('Central ','Central '), ('Eastern ','Eastern ')]
 	YES_NO = [('',''), ('yes','yes'), ('no','no')]
-	EVENT_TYPES = [('',''),('Banquet/Reception', 'Banquet/Reception'), ('Conference/Workshop/Forum', 'Conference/Workshop/Forum'), ('Cultural', 'Cultural'), ('For A Cause', 'For A Cause'), ('Game Watch', 'Game Watch'), ('Homecoming', 'Homecoming'), ('Just for Fun', 'Just for Fun'), ('Leadership Meeting', 'Leadership Meeting'), ('Networking', 'Networking'), ('Other', 'Other'), ('Professional Development', 'Professional Development'), ('Reunion', 'Reunion'), ('Service/Philanthropy', 'Service/Philanthropy'), ('Sports', 'Sports'), ('Tailgate', 'Tailgate'), ('Volunteer Opportunities', 'Volunteer Opportunities'), ('Webinar', 'Webinar')]
-	host_name = StringField('host_name')
+	host_name = SelectField(label='host_name')
 	event_name = StringField('event_name')
-	event_type = SelectField(label='event_type', choices=EVENT_TYPES)
+	event_type = SelectField(label='event_type')
 	on_campus = SelectField(label='on_campus', choices=YES_NO)
 	virtual = SelectField(label='virtual', choices=YES_NO)
 	location = StringField('location')
@@ -40,8 +39,6 @@ class EventForm(Form):
 	registration_req = SelectField(label='registration_req', choices=YES_NO)
 	registration_url = StringField('registration_url')
 	event_page_url = StringField('event_page_url')	
-	google_location_id = HiddenField(id="google_location_id")
-
 
 
 class UsernamePasswordForm(Form):
