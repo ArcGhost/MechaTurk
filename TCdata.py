@@ -2,6 +2,7 @@
 #as well as functions for massaging data before sending it over to Tassl-Connect
 
 import requests
+import json
 from rfc3339 import rfc3339
 from datetime import datetime
 from app import app, db, models
@@ -73,7 +74,7 @@ def get_event_types():
 
 def package_event(mt_event):
 	event = {}
-	event['name'] = mt_event.event_name
+	event['name'] = str(mt_event.event_name)
 	event['start_date'] = rfc3339(datetime.strptime(mt_event.start_date, "%Y-%m-%d"), use_system_timezone=False)
 	event['start_time'] = rfc3339(datetime.strptime(mt_event.start_date + " " + mt_event.start_time
 		, "%Y-%m-%d %H:%M"), use_system_timezone=False)
@@ -81,14 +82,14 @@ def package_event(mt_event):
 	event['end_time'] = rfc3339(datetime.strptime(mt_event.end_date + " " + mt_event.end_time
 		, "%Y-%m-%d %H:%M"), use_system_timezone=False)
 	event['all_day'] = True if (mt_event.all_day == 'yes') else False
-	event['description'] = mt_event.description
+	event['description'] = str(mt_event.description)
 	event['registration_required'] = True if (mt_event.registration_req == 'yes') else False
 	event['on_campus'] = True if (mt_event.on_campus == 'yes') else False
-	event['registration_url'] = mt_event.registration_url
-	event['url'] = mt_event.event_page_url
+	event['registration_url'] = str(mt_event.registration_url)
+	event['url'] = str(mt_event.event_page_url)
 	event['virtual'] = True if (mt_event.virtual == 'yes') else False
-	event['time_zone'] = mt_event.time_zone
-	event['google_location_id'] = mt_event.google_location_id
+	event['time_zone'] = str(mt_event.time_zone)
+	event['google_location_id'] = str(mt_event.google_location_id)
 	event['event_type_id'] = mt_event.event_type
 
 	if bool(mt_event.general_pricing):
@@ -99,7 +100,7 @@ def package_event(mt_event):
 		event['non_member_cost'] = float(mt_event.non_member_pricing) 
 
 	x, hosts_dict = get_host_choices()
-	event['host_name'] = hosts_dict[mt_event.host_name]
+	event['host_name'] = str(hosts_dict[mt_event.host_name])
 
 	host = mt_event.host_name.split("_")
 	if host[0] == "0":
@@ -112,7 +113,7 @@ def package_event(mt_event):
 	h = models.Hit.query.get(mt_event.hit_id)
 	event['school_id'] = h.school
 
-	return event
+	return json.dumps(event)
 
 '''
 #lifted from Tassl-Connect models.py

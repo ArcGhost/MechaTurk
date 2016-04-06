@@ -18,7 +18,8 @@ class CreateHITForm(Form):
 
 
 class EventForm(Form):
-	TIMEZONE_CHOICES = [('',''),('Pacific', 'Pacific'), ('Mountain ','Mountain '), ('Central ','Central '), ('Eastern ','Eastern ')]
+	TIMEZONE_CHOICES = [('America/New_York', 'Eastern Standard Time'), ('America/Chicago', 'Central Time'),
+              ('America/Denver', 'Mountain Time'), ('America/Los_Angeles', 'Pacific Standard Time')]
 	YES_NO = [('',''), ('yes','yes'), ('no','no')]
 	host_name = SelectField(label='host_name')
 	event_name = StringField('event_name')

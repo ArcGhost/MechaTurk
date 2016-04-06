@@ -8,7 +8,7 @@ from wtforms import StringField, TextAreaField, TextField, PasswordField, Select
 from .models import Hit, User
 import os, boto.mturk.connection, boto.mturk.question
 from flask.ext.login import login_user, logout_user, current_user, login_required, LoginManager
-from TCdata import get_host_choices, get_school_choices, get_event_types
+from TCdata import get_host_choices, get_school_choices, get_event_types, package_event
 
 
 @app.template_filter('days_ago') #this will make a function available to templates
@@ -96,7 +96,13 @@ def approve_or_reject(id, judgement):
 	db.session.commit()
 	if judgement == 'approved':
 		mturk.approve_assignment(ass_id, feedback)
-		#delivery to James' portal to happen here
+		url = 'https://candidate.tasslapis.com/v1/schools/'+str(h.school)+'/events'
+		for event in h.events: #send to James' endpoint
+			jsonifiedEvent = package_event(event)
+			try:
+				r = requests.post(url, data = jsonifiedEvent)
+			except requests.exceptions.RequestException as e:
+			    print e
 	elif judgement == 'rejected':
 		mturk.reject_assignment(ass_id, feedback)
 		mturk.extend_hit(h.hit_id, 1) #adds one more assignment under current hit, so that it can still be done without creating another hit

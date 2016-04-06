@@ -8,6 +8,7 @@ app.config.from_object('config')
 app.config.from_pyfile('config.py')
 #app.config.from_object('config')
 app.config['DEBUG'] = True #need this to see error tracing
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
